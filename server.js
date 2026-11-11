@@ -2,6 +2,8 @@ const express = require('express');
 const path = require('path');
 const session = require('express-session');
 const bcrypt = require('bcrypt');
+const multer = require('multer');
+const fs = require('fs');
 const { obtenirTousLesArticles, db } = require('./db');
 
 const app = express();
@@ -21,11 +23,48 @@ app.use(session({
 }));
 
 // ===========================================
-// UTILISATEUR ADMIN (stocké en mémoire pour l'instant)
+// CONFIGURATION DE MULTTER (upload de fichiers)
+// ===========================================
+const dossierUploads = path.join(__dirname, 'public/uploads');
+
+// Créer le dossier uploads s'il n'existe pas
+if (!fs.existsSync(dossierUploads)) {
+    fs.mkdirSync(dossierUploads, { recursive: true });
+    console.log('Dossier uploads créé.');
+}
+
+// Configuration du stockage de Multer
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, dossierUploads);
+    },
+    filename: (req, file, cb) => {
+        // Nom du fichier unique : timestamp + nom d'origine
+        const nomUnique = Date.now() + '-' + file.originalname.replace(/\s+/g, '-');
+        cb(null, nomUnique);
+    }
+});
+
+// Configurer Multer (seulement accepter les images)
+const upload = multer({
+    storage: storage,
+    fileFilter: (req, file, cb) => {
+        if (file.mimetype.startsWith('image/')) {
+            cb(null, true);
+        } else {
+            cb(new Error('Seules les images sont autorisées'), false);
+        }
+    },
+    limits: {
+        fileSize: 5 * 1024 * 1024 // 5 MB max
+    }
+});
+
+// ===========================================
+// UTILISATEUR ADMIN (stocké en mémoire)
 // ===========================================
 let adminUser = null;
 
-// Créer l'utilisateur admin au démarrage si non existant
 async function creerUtilisateurAdmin() {
     const email = 'admin@actu.com';
     const motDePasse = 'admin123';
@@ -38,7 +77,6 @@ async function creerUtilisateurAdmin() {
     console.log(`Utilisateur admin créé: ${email}`);
 }
 
-// Appeler la création de l'utilisateur admin au démarrage
 creerUtilisateurAdmin();
 
 // ===========================================
@@ -46,23 +84,22 @@ creerUtilisateurAdmin();
 // ===========================================
 function verifierConnexion(req, res, next) {
     if (req.session && req.session.user) {
-        next(); // Utilisateur connecté, continuer
+        next();
     } else {
         res.status(401).json({ erreur: 'Non authentifié' });
     }
 }
 
-// Servir les fichiers statiques du dossier 'public'
+// ===========================================
+// SERVER STATIC & MIDDLEWARES
+// ===========================================
 app.use(express.static(path.join(__dirname, 'public')));
-
-// Middleware pour parser le JSON dans les requêtes
 app.use(express.json());
 
 // ===========================================
-// ROUTES API
+// ROUTES API - ARTICLES
 // ===========================================
 
-// Route API : GET /api/articles
 app.get('/api/articles', (req, res) => {
     try {
         const articles = obtenirTousLesArticles();
@@ -82,16 +119,17 @@ app.get('/api/articles', (req, res) => {
     }
 });
 
-// Route : POST /api/login
+// ===========================================
+// ROUTES API - AUTHENTIFICATION
+// ===========================================
+
 app.post('/api/login', async (req, res) => {
     const { email, motDePasse } = req.body;
 
-    // Vérifier les identifiants
     if (adminUser && email === adminUser.email) {
         const motDePasseCorrect = await bcrypt.compare(motDePasse, adminUser.motDePasseHache);
 
         if (motDePasseCorrect) {
-            // Stocker l'utilisateur dans la session
             req.session.user = { email: email };
             res.json({ succès: true, message: 'Connexion réussie' });
             return;
@@ -101,7 +139,6 @@ app.post('/api/login', async (req, res) => {
     res.status(401).json({ succès: false, message: 'Email ou mot de passe incorrect' });
 });
 
-// Route : POST /api/logout
 app.post('/api/logout', (req, res) => {
     req.session.destroy((erreur) => {
         if (erreur) {
@@ -114,8 +151,48 @@ app.post('/api/logout', (req, res) => {
 });
 
 // ===========================================
-// ROUTES STATIQUES : Pages admin (protégées)
+// ROUTE : PUBLICATION D'UN NOUVEAU ARTICLE (PROTEGEE)
 // ===========================================
+
+app.post('/api/admin/articles', verifierConnexion, upload.single('image'), (req, res) => {
+    const { titre, contenu } = req.body;
+
+    if (!titre || !contenu) {
+        return res.status(400).json({ succès: false, message: 'Titre et contenu sont requis' });
+    }
+
+    // Chemin de l'image dans le serveur
+    const imagePath = req.file ? `/uploads/${req.file.filename}` : null;
+    const datepublication = new Date().toISOString().split('T')[0];
+
+    try {
+        const insertStmt = db.prepare(`
+            INSERT INTO articles (titre, contenu, image_url, date_publication)
+            VALUES (?, ?, ?, ?)
+        `);
+
+        insertStmt.run(titre, contenu, imagePath, datepublication);
+
+        res.json({
+            succès: true,
+            message: 'Article publié avec succès',
+            article: {
+                titre: titre,
+                contenu: contenu,
+                image: imagePath,
+                date: datepublication
+            }
+        });
+    } catch (erreur) {
+        console.error('Erreur lors de l\'insertion de l\'article:', erreur);
+        res.status(500).json({ succès: false, message: 'Erreur interne du serveur' });
+    }
+});
+
+// ===========================================
+// ROUTES STATIQUES : Pages admin
+// ===========================================
+
 app.get('/admin/login.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/admin/login.html'));
 });
@@ -124,9 +201,10 @@ app.get('/admin/dashboard.html', verifierConnexion, (req, res) => {
     res.sendFile(path.join(__dirname, 'public/admin/dashboard.html'));
 });
 
-// ===========================================
-// ROUTE PAR DÉFAUT (pour les pages racines des dossiers)
-// ===========================================
+app.get('/admin/nouveau.html', verifierConnexion, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/admin/nouveau.html'));
+});
+
 app.get('/admin/', (req, res) => {
     res.redirect('/admin/login.html');
 });
