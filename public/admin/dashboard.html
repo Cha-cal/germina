@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actu Admin - Tableau de bord</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+    <!-- En-tête du site -->
+    <header>
+        <div class="header-container">
+            <img src="https://placehold.co/150x50/1a3a6b/white?text=ACTU+LOGO" alt="Logo Actu" class="logo">
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="../index.html" class="nav-link">Accueil</a></li>
+                    <li><a href="../articles.html" class="nav-link">Toutes les actus</a></li>
+                    <li><a href="../a-propos.html" class="nav-link">À propos</a></li>
+                    <li><a href="../contact.html" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+        <h2>Tableau de bord administrateur</h2>
+    </header>
+
+    <!-- Contenu du tableau de bord -->
+    <main>
+        <div class="content-wrapper">
+            <h1>Tableau de bord</h1>
+
+            <div class="dashboard-content">
+                <p>Bienvenue dans votre espace d'administration. Ici, vous pouvez gérer les articles,
+                les utilisateurs et les paramètres du site.</p>
+
+                <div class="dashboard-actions">
+                    <a href="#" class="view-all-button" onclick="seDeconnecter()">Se déconnecter</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Pied de page -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p>© 2026 Actu - Tous droits réservés</p>
+            <div class="social-links">
+                <a href="#" class="social-link">Facebook</a>
+                <a href="#" class="social-link">Twitter</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script pour la déconnexion -->
+    <script src="script-admin.js"></script>
+</body>
+</html>
