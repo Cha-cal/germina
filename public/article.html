@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <!-- Méta-informations essentielles -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Actu - Article détaillé</title>
-    <!-- Lien vers la feuille de styles -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -39,47 +37,20 @@
                 <a href="articles.html" class="back-link">← Retour aux actualités</a>
             </div>
 
-            <!-- Titre principal de l'article -->
-            <h1 class="article-title">Titre détaillé de l'article principal</h1>
+            <!-- Titre principal de l'article (rempli dynamiquement) -->
+            <h1 id="titre-article" class="article-title"></h1>
 
-            <!-- Date de publication -->
-            <time class="article-date" datetime="2026-11-14">14 novembre 2026</time>
+            <!-- Date de publication (remplie dynamiquement) -->
+            <time id="date-article" class="article-date"></time>
 
-            <!-- Grande image principale -->
+            <!-- Grande image principale (remplie dynamiquement) -->
             <figure class="article-image-container">
-                <img src="https://picsum.photos/800/400" alt="Image principale de l'article">
+                <img id="image-article" src="https://picsum.photos/800/400" alt="Image principale de l'article">
             </figure>
 
-            <!-- Contenu long de l'article -->
-            <article class="article-content">
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                    veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                    commodo consequat.
-                </p>
-
-                <p>
-                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-                    dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
-                    doloremque laudantium.
-                </p>
-
-                <p>
-                    At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
-                    praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias
-                    excepturi sint occaecati cupiditate non provident. Similique sunt in
-                    autem quia et nobis sequi est similish.
-                </p>
-
-                <p>
-                    Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse
-                    quam molestias consequatur vel autem vel. Sed quia consequuntur magni
-                    dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam
-                    est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.
-                </p>
+            <!-- Contenu long de l'article (rempli dynamiquement) -->
+            <article id="contenu-article" class="article-content">
+                <!-- Le contenu sera chargé dynamiquement par JavaScript -->
             </article>
 
             <!-- Section commentaires (formulaire pas encore fonctionnel) -->
@@ -101,7 +72,7 @@
         </div>
     </main>
 
-    <!-- Pied de page avec le bouton de navigation -->
+    <!-- Pied de footer -->
     <footer class="site-footer">
         <div class="footer-content">
             <p>© 2026 Actu - Tous droits réservés</p>
@@ -113,7 +84,7 @@
         <a href="articles.html" class="view-all-button">Retour aux actualités</a>
     </footer>
 
-    <!-- Script JavaScript pour le menu hamburger -->
+    <!-- Script JavaScript pour le menu hamburger et le chargement des articles -->
     <script src="script.js"></script>
 
 </body>

@@ -4,7 +4,7 @@ const session = require('express-session');
 const bcrypt = require('bcrypt');
 const multer = require('multer');
 const fs = require('fs');
-const { obtenirTousLesArticles, db } = require('./db');
+const { obtenirTousLesArticles, obtenirArticleParId, db } = require('./db');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -117,6 +117,29 @@ app.get('/api/articles', (req, res) => {
         console.error('Erreur lors de la récupération des articles :', erreur);
         res.status(500).json({ erreur: 'Erreur interne du serveur' });
     }
+});
+
+// Route : GET /api/articles/:id - Récupérer un article précis
+app.get('/api/articles/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+
+    if (isNaN(id)) {
+        return res.status(400).json({ erreur: 'ID invalide' });
+    }
+
+    const article = obtenirArticleParId(id);
+
+    if (!article) {
+        return res.status(404).json({ erreur: 'Article non trouvé' });
+    }
+
+    res.json({
+        id: article.id,
+        title: article.titre,
+        content: article.contenu,
+        image: article.image_url,
+        date: article.date_publication
+    });
 });
 
 // ===========================================

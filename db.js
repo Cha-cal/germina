@@ -66,5 +66,9 @@ module.exports = {
     obtenirTousLesArticles: () => {
         const stmt = db.prepare('SELECT * FROM articles ORDER BY id DESC');
         return stmt.all();
+    },
+    obtenirArticleParId: (id) => {
+        const stmt = db.prepare('SELECT * FROM articles WHERE id = ?');
+        return stmt.get(id);
     }
 };
