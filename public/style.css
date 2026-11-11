@@ -38,6 +38,16 @@ header {
     height: 50px;
 }
 
+/* Bouton hamburger (masqué par défaut sur ordinateur) */
+.menu-hamburger {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.75rem;
+    cursor: pointer;
+    color: #1a365d;
+}
+
 /* Menu de navigation avec Flexbox */
 .main-nav ul {
     display: flex;
@@ -399,21 +409,46 @@ header h2 {
    MEDIA QUERIES MOBILE (max-width 768px)
    =========================================== */
 @media (max-width: 768px) {
-    /* Header : menu et logo en colonne, centrés */
+    /* Header avec bouton hamburger */
     .header-container {
-        flex-direction: column;
-        text-align: center;
-        gap: 1rem;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
     }
 
     .logo {
         height: 40px;
     }
 
+    /* Afficher le bouton hamburger */
+    .menu-hamburger {
+        display: block;
+    }
+
+    /* Masquer le menu nav par défaut */
+    .main-nav {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: #ffffff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 1rem;
+        z-index: 1000;
+        border-bottom: 1px solid #e5e5e5;
+    }
+
+    /* Afficher le menu quand la classe "ouvert" est ajoutée par JS */
+    .main-nav.ouvert {
+        display: block;
+    }
+
     .main-nav ul {
         flex-direction: column;
         align-items: center;
-        gap: 0.5rem;
+        gap: 1rem;
     }
 
     /* Grille des articles : une seule colonne */
