@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <!-- Méta-informations essentielles -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actu - Article détaillé</title>
+    <!-- Lien vers la feuille de styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- En-tête du site avec le titre principal et le menu de navigation -->
+    <header>
+        <div class="header-container">
+            <!-- Logo du site -->
+            <img src="https://placehold.co/150x50/1a3a6b/white?text=ACTU+LOGO" alt="Logo Actu" class="logo">
+
+            <!-- Menu de navigation -->
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html" class="nav-link">Accueil</a></li>
+                    <li><a href="articles.html" class="nav-link">Toutes les actus</a></li>
+                    <li><a href="#" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+        <h2>L'actualité en continu</h2>
+    </header>
+
+    <!-- Section principale contenant l'article complet -->
+    <main>
+        <!-- Conteneur principal avec largeur maximale pour l'article -->
+        <div class="article-container">
+            <!-- Lien de retour vers la page précédente -->
+            <div class="article-header">
+                <a href="articles.html" class="back-link">← Retour aux actualités</a>
+            </div>
+
+            <!-- Titre principal de l'article -->
+            <h1 class="article-title">Titre détaillé de l'article principal</h1>
+
+            <!-- Date de publication -->
+            <time class="article-date" datetime="2026-11-14">14 novembre 2026</time>
+
+            <!-- Grande image principale -->
+            <figure class="article-image-container">
+                <img src="https://picsum.photos/800/400" alt="Image principale de l'article">
+            </figure>
+
+            <!-- Contenu long de l'article -->
+            <article class="article-content">
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                    veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                    commodo consequat.
+                </p>
+
+                <p>
+                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+                    dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
+                    doloremque laudantium.
+                </p>
+
+                <p>
+                    At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
+                    praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias
+                    excepturi sint occaecati cupiditate non provident. Similique sunt in
+                    autem quia et nobis sequi est similish.
+                </p>
+
+                <p>
+                    Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse
+                    quam molestias consequatur vel autem vel. Sed quia consequuntur magni
+                    dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam
+                    est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.
+                </p>
+            </article>
+
+            <!-- Section commentaires (formulaire pas encore fonctionnel) -->
+            <!-- TODO: Ce formulaire sera connecté à un backend plus tard -->
+            <section class="comments-section">
+                <h2>Laisser un commentaire</h2>
+                <form class="comment-form" action="#" method="POST">
+                    <div class="form-group">
+                        <label for="comment-name">Nom</label>
+                        <input type="text" id="comment-name" name="name" class="form-input" placeholder="Votre nom">
+                    </div>
+                    <div class="form-group">
+                        <label for="comment-message">Message</label>
+                        <textarea id="comment-message" name="message" class="form-textarea" placeholder="Votre commentaire"></textarea>
+                    </div>
+                    <button type="submit" class="comment-submit">Publier</button>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <!-- Pied de page avec le bouton de navigation -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p>© 2026 Actu - Tous droits réservés</p>
+            <div class="social-links">
+                <a href="#" class="social-link">Facebook</a>
+                <a href="#" class="social-link">Twitter</a>
+            </div>
+        </div>
+        <a href="articles.html" class="view-all-button">Retour aux actualités</a>
+    </footer>
+
+</body>
+</html>

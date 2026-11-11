@@ -10,9 +10,21 @@
 </head>
 <body>
 
-    <!-- En-tête du site avec le titre principal -->
+    <!-- En-tête du site avec le titre principal et le menu de navigation -->
     <header>
-        <h1>Actu</h1>
+        <div class="header-container">
+            <!-- Logo du site -->
+            <img src="https://placehold.co/150x50/1a3a6b/white?text=ACTU+LOGO" alt="Logo Actu" class="logo">
+
+            <!-- Menu de navigation -->
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html" class="nav-link">Accueil</a></li>
+                    <li><a href="articles.html" class="nav-link active">Toutes les actus</a></li>
+                    <li><a href="#" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
         <h2>L'actualité en continu</h2>
     </header>
 
@@ -20,11 +32,6 @@
     <main>
         <!-- Conteneur principal avec largeur maximale -->
         <div class="content-wrapper">
-            <!-- Bouton Retour à l'accueil -->
-            <div style="text-align: center; margin-bottom: 20px;">
-                <a href="index.html" class="back-home">Retour à l'accueil</a>
-            </div>
-
             <!-- Grille des cartes d'actualité -->
             <section class="news-container">
                 <!-- Première carte d'actualité -->
@@ -36,7 +43,7 @@
                         Résumé de la première actualité. Ce texte donne un aperçu succinct des
                         informations principales à ne pas manquer.
                     </p>
-                    <a href="article.html">Lire la suite</a>
+                    <a href="article.html" class="read-more">Lire la suite</a>
                 </article>
 
                 <!-- Deuxième carte d'actualité -->
@@ -48,7 +55,7 @@
                         Résumé de la deuxième actualité. Ce texte donne un aperçu succinct des
                         informations principales à ne pas manquer.
                     </p>
-                    <a href="article.html">Lire la suite</a>
+                    <a href="article.html" class="read-more">Lire la suite</a>
                 </article>
 
                 <!-- Troisième carte d'actualité -->
@@ -60,7 +67,7 @@
                         Résumé de la troisième actualité. Ce texte donne un aperçu succinct des
                         informations principales à ne pas manquer.
                     </p>
-                    <a href="article.html">Lire la suite</a>
+                    <a href="article.html" class="read-more">Lire la suite</a>
                 </article>
 
                 <!-- Quatrième carte d'actualité -->
@@ -72,7 +79,7 @@
                         Résumé de la quatrième actualité. Ce texte donne un aperçu succinct des
                         informations principales à ne pas manquer.
                     </p>
-                    <a href="article.html">Lire la suite</a>
+                    <a href="article.html" class="read-more">Lire la suite</a>
                 </article>
 
                 <!-- Cinquième carte d'actualité -->
@@ -84,7 +91,7 @@
                         Résumé de la cinquième actualité. Ce texte donne un aperçu succinct des
                         informations principales à ne pas manquer.
                     </p>
-                    <a href="article.html">Lire la suite</a>
+                    <a href="article.html" class="read-more">Lire la suite</a>
                 </article>
 
                 <!-- Sixième carte d'actualité -->
@@ -96,7 +103,7 @@
                         Résumé de la sixième actualité. Ce texte donne un aperçu succinct des
                         informations principales à ne pas manquer.
                     </p>
-                    <a href="article.html">Lire la suite</a>
+                    <a href="article.html" class="read-more">Lire la suite</a>
                 </article>
 
                 <!-- Septième carte d'actualité -->
@@ -108,7 +115,7 @@
                         Résumé de la septième actualité. Ce texte donne un aperçu succinct des
                         informations principales à ne pas manquer.
                     </p>
-                    <a href="article.html">Lire la suite</a>
+                    <a href="article.html" class="read-more">Lire la suite</a>
                 </article>
 
                 <!-- Huitième carte d'actualité -->
@@ -120,14 +127,21 @@
                         Résumé de la huitième actualité. Ce texte donne un aperçu succinct des
                         informations principales à ne pas manquer.
                     </p>
-                    <a href="article.html">Lire la suite</a>
+                    <a href="article.html" class="read-more">Lire la suite</a>
                 </article>
             </section>
         </div>
     </main>
 
     <!-- Pied de page avec le bouton de navigation -->
-    <footer>
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p>© 2026 Actu - Tous droits réservés</p>
+            <div class="social-links">
+                <a href="#" class="social-link">Facebook</a>
+                <a href="#" class="social-link">Twitter</a>
+            </div>
+        </div>
         <a href="index.html" class="view-all-button">Retour à l'accueil</a>
     </footer>
 
