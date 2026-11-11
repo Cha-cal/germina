@@ -40,31 +40,31 @@ header h2 {
 }
 
 /* ===========================================
-   MAINE CONTENANT LES CARTES D'ACTUALITÉS
+   CONTENEUR PRINCIPAL
    =========================================== */
 
-main {
-    padding: 2rem 1rem;
+.content-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
+/* ===========================================
+   GRILLE DES CARTES D'ACTUALITÉS
+   =========================================== */
 /*
-   Flexbox/Grid pour la mise en page :
-
-   - FLEXBOX : Idéal pour organiser des éléments dans une direction (ligne ou colonne).
-     Permet de répartir l'espace, d'aligner des éléments, et de les ajuster automatiquement.
-     Utilisé ici pour le conteneur des cartes et pour centrer le bouton dans le footer.
-
-   - GRID : Parfait pour des mises en page en grille bidimensionnelle (lignes ET colonnes).
-     Permet de créer des layouts complexes avec des zones nommées ou auto-placées.
-     Utilisé ici pour afficher les cartes en colonnes qui s'adaptent à la taille de l'écran.
+   Grid en CSS : c'est un système de disposition bidimensionnel (2D).
+   Il permet d'organiser les éléments en lignes et colonnes.
+   - grid-template-columns : définit le nombre et la taille des colonnes
+   - auto-fill : crée autant de colonnes qu'elles font place
+   - minmax(300px, 1fr) : chaque colonne fait au moins 300px,
+     mais peut grandir pour occuper l'espace restant
 */
 
 .news-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
-    max-width: 1200px;
-    margin: 0 auto;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
 }
 
 /* ===========================================
@@ -75,7 +75,7 @@ main {
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    overflow: hidden;
+    padding: 15px;
     display: flex;
     flex-direction: column;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -88,15 +88,16 @@ main {
 
 .news-card img {
     width: 100%;
-    height: 250px;
+    height: 200px;
     object-fit: cover;
     display: block;
+    margin-bottom: 10px;
 }
 
 .news-card h3 {
     font-size: 1.25rem;
     font-weight: 600;
-    margin: 1rem 1rem 0.5rem;
+    margin: 0 0 0.5rem;
     color: #222;
     line-height: 1.3;
 }
@@ -105,19 +106,19 @@ main {
     font-size: 0.875rem;
     font-style: italic;
     color: #555;
-    margin: 0 1rem 1rem;
+    margin: 0 0 1rem;
 }
 
 .news-card p {
     font-size: 1rem;
     color: #555;
-    margin: 0 1rem 1rem;
+    margin: 0 0 1rem;
     flex-grow: 1;
 }
 
 .news-card a {
     display: inline-block;
-    margin: 0 1rem 1rem;
+    margin: 0;
     color: #0066cc;
     text-decoration: none;
     font-weight: 500;
@@ -159,19 +160,22 @@ footer {
    RÉSPONSIVE
    =========================================== */
 
-/* Mobile (max-width : 768px) */
 @media (max-width: 768px) {
     header h1 {
         font-size: 2rem;
     }
 
-    main {
-        padding: 1.5rem 0.75rem;
+    .content-wrapper {
+        padding: 15px;
     }
 
     .news-container {
         grid-template-columns: 1fr;
-        gap: 1.25rem;
+        gap: 15px;
+    }
+
+    .news-card {
+        padding: 12px;
     }
 
     .view-all-button {
@@ -180,25 +184,27 @@ footer {
     }
 }
 
-/* Ordinateur (min-width : 769px) */
 @media (min-width: 769px) {
     .news-container {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
-/* Grand écran (min-width : 1024px) */
 @media (min-width: 1024px) {
     .news-container {
         grid-template-columns: repeat(3, 1fr);
         gap: 2rem;
     }
 
+    .content-wrapper {
+        padding: 3rem 1.5rem;
+    }
+
     header h1 {
         font-size: 2.75rem;
     }
 
-    main {
-        padding: 3rem 1.5rem;
+    .news-card {
+        padding: 20px;
     }
 }
