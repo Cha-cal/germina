@@ -55,8 +55,11 @@ async function chargerArticles() {
             const articleElement = document.createElement('article');
             articleElement.className = 'news-card';
 
+            // Utiliser l'image de la base de données ou un placeholder par défaut
+            const imageUrl = article.image || 'https://picsum.photos/400/250';
+
             articleElement.innerHTML = `
-                <img src="https://picsum.photos/400/250?random=${article.id}" alt="${article.title}">
+                <img src="${imageUrl}" alt="${article.title}">
                 <h3>${article.title}</h3>
                 <time datetime="${article.date}">${formaterDate(article.date)}</time>
                 <p>${article.content}</p>

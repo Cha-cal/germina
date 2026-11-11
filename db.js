@@ -64,7 +64,7 @@ initialiserArticlesDeTest();
 module.exports = {
     db,
     obtenirTousLesArticles: () => {
-        const stmt = db.prepare('SELECT * FROM articles ORDER BY date_publication DESC');
+        const stmt = db.prepare('SELECT * FROM articles ORDER BY id DESC');
         return stmt.all();
     }
 };
