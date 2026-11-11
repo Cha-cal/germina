@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const { obtenirTousLesArticles, db } = require('./db');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -10,24 +11,33 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Middleware pour parser le JSON dans les requêtes
 app.use(express.json());
 
-// Route API de test : GET /api/articles
+// Route API : GET /api/articles
+// Retourne les articles depuis la base de données SQLite
 app.get('/api/articles', (req, res) => {
-    const articles = [
-        {
-            id: 1,
-            title: "Lancement réussi du nouveau projet Actu",
-            content: "Aujourd'hui marque une étape importante avec le lancement officiel du site d'actualité Actu en continu.",
-            date: "2026-11-14"
-        },
-        {
-            id: 2,
-            title: "Les avancées majeures du développement Web",
-            content: "Découvrez les nouvelles technologies et tendances qui façonnent le Web de demain.",
-            date: "2026-11-13"
-        }
-    ];
+    try {
+        const articles = obtenirTousLesArticles();
 
-    res.json(articles);
+        // Mapper les colonnes de la DB vers les noms propres au front-end
+        const articlesFormattes = articles.map(article => ({
+            id: article.id,
+            title: article.titre,
+            content: article.contenu,
+            image: article.image_url,
+            date: article.date_publication
+        }));
+
+        res.json(articlesFormattes);
+    } catch (erreur) {
+        console.error('Erreur lors de la récupération des articles :', erreur);
+        res.status(500).json({ erreur: 'Erreur interne du serveur' });
+    }
+});
+
+// Route pour fermer proprement la base de données (pour le développement)
+process.on('SIGINT', () => {
+    db.close();
+    console.log('\nBase de données fermée.');
+    process.exit(0);
 });
 
 // Démarrer le serveur
