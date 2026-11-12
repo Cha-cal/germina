@@ -1,7 +1,34 @@
 // Chargement des articles au chargement du DOM
 document.addEventListener('DOMContentLoaded', () => {
     chargerArticlesAdmin();
+    chargerBadgeMessages();
 });
+
+async function chargerBadgeMessages() {
+    const badge = document.getElementById('badge-messages');
+    if (!badge) return;
+
+    try {
+        const response = await fetch('/api/admin/messages/non-lus');
+
+        if (!response.ok) {
+            if (response.status === 401) return;
+            throw new Error(`Erreur HTTP : ${response.status}`);
+        }
+
+        const data = await response.json();
+        const count = data.count || 0;
+
+        if (count > 0) {
+            badge.textContent = count > 99 ? '99+' : count;
+            badge.style.display = 'inline-flex';
+        } else {
+            badge.style.display = 'none';
+        }
+    } catch (erreur) {
+        console.error('Erreur chargement badge messages:', erreur);
+    }
+}
 
 async function chargerArticlesAdmin() {
     const containerBrouillons = document.getElementById('liste-brouillons');

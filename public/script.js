@@ -116,7 +116,7 @@ async function chargerArticlesToutesLesActus() {
 
         const articles = await response.json();
 
-        // Vider le conteneur
+        // Vider le conteneur AVANT de construire le HTML
         container.innerHTML = '';
 
         // Si aucun article
@@ -125,11 +125,9 @@ async function chargerArticlesToutesLesActus() {
             return;
         }
 
-        // Parcourir les articles et générer le HTML de chaque carte
+        // Construire tout le HTML dans une variable (buffer string)
+        let html = '';
         articles.forEach(article => {
-            const articleElement = document.createElement('article');
-            articleElement.className = 'news-card';
-
             // Utiliser l'image de la base de données ou un placeholder par défaut
             const imageUrl = article.image || 'https://picsum.photos/400/250';
 
@@ -138,16 +136,19 @@ async function chargerArticlesToutesLesActus() {
                 ? `<span class="comment-badge" title="${article.nombre_commentaires} commentaire${article.nombre_commentaires > 1 ? 's' : ''}">💬 ${article.nombre_commentaires}</span>`
                 : '';
 
-            articleElement.innerHTML = `
-                <img src="${imageUrl}" alt="${article.title}">
-                <h3>${article.title} ${commentBadge}</h3>
-                <time datetime="${article.date}">${formaterDate(article.date)}</time>
-                <p>${article.content}</p>
-                <a href="article.html?id=${article.id}" class="read-more">Lire la suite</a>
+            html += `
+                <article class="news-card">
+                    <img src="${imageUrl}" alt="${article.title}">
+                    <h3>${article.title} ${commentBadge}</h3>
+                    <time datetime="${article.date}">${formaterDate(article.date)}</time>
+                    <p>${article.content}</p>
+                    <a href="article.html?id=${article.id}" class="read-more">Lire la suite</a>
+                </article>
             `;
-
-            container.appendChild(articleElement);
         });
+
+        // Un SEUL innerHTML à la fin
+        container.innerHTML = html;
 
     } catch (erreur) {
         console.error('Erreur lors du chargement des articles :', erreur);
@@ -322,6 +323,64 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (erreur) {
                 console.error('Erreur:', erreur);
                 alert('Erreur de connexion au serveur');
+            }
+        });
+    }
+});
+
+/* ===========================================
+   FORMULAIRE DE CONTACT
+   =========================================== */
+
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('form-contact');
+    const messageReponse = document.getElementById('message-reponse');
+
+    if (form && messageReponse) {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Empêcher le rechargement de la page
+
+            // Récupérer les valeurs des champs
+            const nom = document.getElementById('contact-nom').value;
+            const email = document.getElementById('contact-email').value;
+            const message = document.getElementById('contact-message').value;
+
+            if (!nom || !email || !message) {
+                messageReponse.textContent = 'Tous les champs sont requis.';
+                messageReponse.style.color = 'red';
+                messageReponse.style.display = 'block';
+                return;
+            }
+
+            try {
+                // Envoi vers l'API
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ nom, email, message })
+                });
+
+                const result = await response.json();
+
+                if (result.succès) {
+                    // Succès : vider le formulaire et afficher message vert
+                    form.reset();
+                    messageReponse.textContent = 'Merci, votre message a bien été envoyé !';
+                    messageReponse.style.color = 'green';
+                    messageReponse.style.display = 'block';
+                } else {
+                    // Erreur API : afficher message rouge
+                    messageReponse.textContent = result.message || 'Une erreur est survenue.';
+                    messageReponse.style.color = 'red';
+                    messageReponse.style.display = 'block';
+                }
+            } catch (erreur) {
+                console.error('Erreur:', erreur);
+                messageReponse.textContent = 'Une erreur est survenue.';
+                messageReponse.style.color = 'red';
+                messageReponse.style.display = 'block';
             }
         });
     }

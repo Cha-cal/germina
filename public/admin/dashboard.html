@@ -27,9 +27,15 @@
     <!-- Contenu du tableau de bord -->
     <main>
         <div class="content-wrapper dashboard-wrapper">
-            <div class="dashboard-header-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+            <div class="dashboard-header-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 10px;">
                 <h1>Tableau de bord</h1>
-                <button onclick="seDeconnecter()" class="contact-submit" style="background-color: #dc3545;">Se déconnecter</button>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <a href="messages.html" class="view-all-button" style="text-decoration: none; position: relative;">
+                        📩 Boîte de réception
+                        <span id="badge-messages" class="notification-badge" style="display: none;"></span>
+                    </a>
+                    <button onclick="seDeconnecter()" class="contact-submit" style="background-color: #dc3545;">Se déconnecter</button>
+                </div>
             </div>
 
             <!-- Bloc 1 : Nouvelle publication -->

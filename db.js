@@ -7,7 +7,7 @@ const dbPath = path.join(__dirname, 'data.db');
 // Ouvrir (ou créer) la base de données
 const db = new Database(dbPath);
 
-// Créer la table "articles" et la table "commentaires" si elles n'existent pas déjà
+// Créer la table "articles", "commentaires" et "messages_contact" si elles n'existent pas déjà
 db.exec(`
     CREATE TABLE IF NOT EXISTS articles (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -25,6 +25,14 @@ db.exec(`
         message TEXT NOT NULL,
         date_creation TEXT NOT NULL,
         FOREIGN KEY (article_id) REFERENCES articles(id) ON DELETE CASCADE
+    );
+
+    CREATE TABLE IF NOT EXISTS messages_contact (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nom TEXT NOT NULL,
+        email TEXT NOT NULL,
+        message TEXT NOT NULL,
+        date_creation TEXT NOT NULL
     );
 `);
 
@@ -112,5 +120,13 @@ module.exports = {
             VALUES (?, ?, ?, ?)
         `);
         return stmt.run(articleId, nom, message, dateCreation);
+    },
+    ajouterMessageContact: (nom, email, message) => {
+        const dateCreation = new Date().toISOString();
+        const stmt = db.prepare(`
+            INSERT INTO messages_contact (nom, email, message, date_creation)
+            VALUES (?, ?, ?, ?)
+        `);
+        return stmt.run(nom, email, message, dateCreation);
     }
 };

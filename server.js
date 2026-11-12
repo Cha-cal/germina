@@ -4,7 +4,7 @@ const session = require('express-session');
 const bcrypt = require('bcrypt');
 const multer = require('multer');
 const fs = require('fs');
-const { obtenirTousLesArticles, obtenirArticlesPublies, obtenirArticleParId, obtenirCommentairesParArticleId, ajouterCommentaire, db } = require('./db');
+const { obtenirTousLesArticles, obtenirArticlesPublies, obtenirArticleParId, obtenirCommentairesParArticleId, ajouterCommentaire, ajouterMessageContact, db } = require('./db');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -193,6 +193,86 @@ app.post('/api/articles/:id/commentaires', (req, res) => {
 
     ajouterCommentaire(articleId, nom, message);
     res.json({ succès: true, message: 'Commentaire publié' });
+});
+
+// Route : POST /api/contact - Recevoir un message de contact
+app.post('/api/contact', (req, res) => {
+    const { nom, email, message } = req.body;
+
+    if (!nom || !email || !message) {
+        return res.status(400).json({ succès: false, message: 'Tous les champs sont requis' });
+    }
+
+    // Validation email basique
+    if (!email.includes('@') || !email.includes('.')) {
+        return res.status(400).json({ succès: false, message: 'Email invalide' });
+    }
+
+    try {
+        ajouterMessageContact(nom, email, message);
+        res.json({ succès: true, message: 'Message envoyé avec succès' });
+    } catch (erreur) {
+        console.error('Erreur lors de l\'enregistrement du message:', erreur);
+        res.status(500).json({ succès: false, message: 'Erreur interne du serveur' });
+    }
+});
+
+// ===========================================
+// ROUTES API - ADMIN MESSAGES CONTACT
+// ===========================================
+
+// Route : GET /api/admin/messages - Récupérer tous les messages de contact (admin)
+app.get('/api/admin/messages', verifierConnexion, (req, res) => {
+    try {
+        const messages = db.prepare(`
+            SELECT * FROM messages_contact ORDER BY date_creation DESC
+        `).all();
+
+        res.json(messages);
+    } catch (erreur) {
+        console.error('Erreur lors de la récupération des messages:', erreur);
+        res.status(500).json({ erreur: 'Erreur interne du serveur' });
+    }
+});
+
+// Route : DELETE /api/admin/messages/:id - Supprimer un message (admin)
+app.delete('/api/admin/messages/:id', verifierConnexion, (req, res) => {
+    const id = parseInt(req.params.id);
+
+    if (isNaN(id)) {
+        return res.status(400).json({ erreur: 'ID invalide' });
+    }
+
+    try {
+        const deleteStmt = db.prepare(`
+            DELETE FROM messages_contact WHERE id = ?
+        `);
+
+        const result = deleteStmt.run(id);
+
+        if (result.changes === 0) {
+            return res.status(404).json({ erreur: 'Message non trouvé' });
+        }
+
+        res.json({ succès: true, message: 'Message supprimé' });
+    } catch (erreur) {
+        console.error('Erreur lors de la suppression du message:', erreur);
+        res.status(500).json({ erreur: 'Erreur interne du serveur' });
+    }
+});
+
+// Route : GET /api/admin/messages/non-lus - Compter les messages non lus (admin)
+app.get('/api/admin/messages/non-lus', verifierConnexion, (req, res) => {
+    try {
+        const result = db.prepare(`
+            SELECT COUNT(*) as count FROM messages_contact
+        `).get();
+
+        res.json({ count: result.count || 0 });
+    } catch (erreur) {
+        console.error('Erreur lors du comptage des messages:', erreur);
+        res.status(500).json({ erreur: 'Erreur interne du serveur' });
+    }
 });
 
 // ===========================================
@@ -436,6 +516,11 @@ app.get('/admin/nouveau.html', verifierConnexion, (req, res) => {
 // Nouvelle route pour la page de modification
 app.get('/admin/modifier.html', verifierConnexion, (req, res) => {
     res.sendFile(path.join(__dirname, 'public/admin/modifier.html'));
+});
+
+// Nouvelle route pour la boîte de réception
+app.get('/admin/messages.html', verifierConnexion, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/admin/messages.html'));
 });
 
 app.get('/admin/', (req, res) => {

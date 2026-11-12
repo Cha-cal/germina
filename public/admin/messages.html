@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actu Admin - Boîte de réception</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+    <!-- En-tête du site -->
+    <header>
+        <div class="header-container">
+            <img src="https://placehold.co/150x50/1a3a6b/white?text=ACTU+LOGO" alt="Logo Actu" class="logo">
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="../index.html" class="nav-link">Accueil</a></li>
+                    <li><a href="../articles.html" class="nav-link">Toutes les actus</a></li>
+                    <li><a href="../a-propos.html" class="nav-link">À propos</a></li>
+                    <li><a href="../contact.html" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+        <h2>Tableau de bord administrateur</h2>
+    </header>
+
+    <!-- Contenu de la boîte de réception -->
+    <main>
+        <div class="content-wrapper dashboard-wrapper">
+            <div class="dashboard-header-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 10px;">
+                <h1>Boîte de réception</h1>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <a href="dashboard.html" class="view-all-button" style="text-decoration: none;">← Retour au tableau de bord</a>
+                    <button onclick="seDeconnecter()" class="contact-submit" style="background-color: #dc3545;">Se déconnecter</button>
+                </div>
+            </div>
+
+            <!-- Liste des messages -->
+            <section class="dashboard-section">
+                <div id="liste-messages"></div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Pied de page -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p>© 2026 Actu - Tous droits réservés</p>
+            <div class="social-links">
+                <a href="#" class="social-link">Facebook</a>
+                <a href="#" class="social-link">Twitter</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="script-admin.js"></script>
+    <script src="admin-messages.js"></script>
+</body>
+</html>
