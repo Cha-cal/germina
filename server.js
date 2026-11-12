@@ -23,7 +23,7 @@ app.use(session({
 }));
 
 // ===========================================
-// CONFIGURATION DE MULTTER (upload de fichiers)
+// CONFIGURATION DE MULTER (upload de fichiers)
 // ===========================================
 const dossierUploads = path.join(__dirname, 'public/uploads');
 
@@ -264,6 +264,150 @@ app.post('/api/admin/articles', verifierConnexion, upload.single('image'), (req,
 });
 
 // ===========================================
+// ROUTE : SUPPRESSION D'UN ARTICLE (PROTEGEE)
+// ===========================================
+
+app.delete('/api/admin/articles/:id', verifierConnexion, (req, res) => {
+    const id = parseInt(req.params.id);
+
+    if (isNaN(id)) {
+        return res.status(400).json({ succès: false, message: 'ID invalide' });
+    }
+
+    try {
+        // Vérifier si l'article existe
+        const articleExistant = obtenirArticleParId(id);
+        if (!articleExistant) {
+            return res.status(404).json({ succès: false, message: 'Article non trouvé' });
+        }
+
+        // Supprimer l'article (les commentaires sont supprimés automatiquement via ON DELETE CASCADE)
+        const deleteStmt = db.prepare(`
+            DELETE FROM articles WHERE id = ?
+        `);
+
+        deleteStmt.run(id);
+
+        res.json({ succès: true, message: 'Article supprimé avec succès' });
+    } catch (erreur) {
+        console.error('Erreur lors de la suppression de l\'article:', erreur);
+        res.status(500).json({ succès: false, message: 'Erreur interne du serveur' });
+    }
+});
+
+// ===========================================
+// ROUTE : MODIFICATION D'UN ARTICLE (PROTEGEE)
+// ===========================================
+
+// Route GET pour récupérer un article (admin)
+app.get('/api/admin/articles/:id', verifierConnexion, (req, res) => {
+    const id = parseInt(req.params.id);
+
+    if (isNaN(id)) {
+        return res.status(400).json({ erreur: 'ID invalide' });
+    }
+
+    const article = obtenirArticleParId(id);
+
+    if (!article) {
+        return res.status(404).json({ erreur: 'Article non trouvé' });
+    }
+
+    res.json({
+        id: article.id,
+        titre: article.titre,
+        contenu: article.contenu,
+        image_url: article.image_url,
+        date_publication: article.date_publication,
+        statut: article.statut
+    });
+});
+
+// Route PUT pour mettre à jour un article
+app.put('/api/admin/articles/:id', verifierConnexion, upload.single('image'), (req, res) => {
+    const id = parseInt(req.params.id);
+    const { titre, contenu, statut } = req.body;
+
+    if (!titre || !contenu) {
+        return res.status(400).json({ succès: false, message: 'Titre et contenu sont requis' });
+    }
+
+    // Le statut doit être 'publie' ou 'brouillon'
+    const statutFinal = statut === 'brouillon' ? 'brouillon' : 'publie';
+
+    // Chemin de l'image : garder l'image existante si pas de nouvelle image fournie
+    const imagePath = req.file ? `/uploads/${req.file.filename}` : null;
+
+    try {
+        // Vérifier si l'article existe
+        const articleExistant = obtenirArticleParId(id);
+        if (!articleExistant) {
+            return res.status(404).json({ succès: false, message: 'Article non trouvé' });
+        }
+
+        // Si une nouvelle image est fournie, on l'utilise ; sinon on garde l'image actuelle
+        const imageFinal = imagePath || articleExistant.image_url;
+
+        const updateStmt = db.prepare(`
+            UPDATE articles
+            SET titre = ?, contenu = ?, image_url = ?, statut = ?
+            WHERE id = ?
+        `);
+
+        updateStmt.run(titre, contenu, imageFinal, statutFinal, id);
+
+        res.json({
+            succès: true,
+            message: 'Article mis à jour avec succès',
+            article: {
+                id: id,
+                titre: titre,
+                contenu: contenu,
+                image: imageFinal,
+                statut: statutFinal
+            }
+        });
+    } catch (erreur) {
+        console.error('Erreur lors de la mise à jour de l\'article:', erreur);
+        res.status(500).json({ succès: false, message: 'Erreur interne du serveur' });
+    }
+});
+
+// ===========================================
+// ROUTES : GESTION DES COMMENTAIRES ADMIN
+// ===========================================
+
+// Route : GET /api/admin/articles/:id/commentaires - Récupérer les commentaires d'un article
+app.get('/api/admin/articles/:id/commentaires', verifierConnexion, (req, res) => {
+    const articleId = parseInt(req.params.id);
+    if (isNaN(articleId)) {
+        return res.status(400).json({ erreur: 'ID invalide' });
+    }
+    const commentaires = obtenirCommentairesParArticleId(articleId);
+    res.json(commentaires);
+});
+
+// Route : DELETE /api/admin/commentaires/:id - Supprimer un commentaire
+app.delete('/api/admin/commentaires/:id', verifierConnexion, (req, res) => {
+    const commentId = parseInt(req.params.id);
+    if (isNaN(commentId)) {
+        return res.status(400).json({ erreur: 'ID invalide' });
+    }
+
+    const deleteStmt = db.prepare(`
+        DELETE FROM commentaires WHERE id = ?
+    `);
+
+    const result = deleteStmt.run(commentId);
+
+    if (result.changes === 0) {
+        return res.status(404).json({ erreur: 'Commentaire non trouvé' });
+    }
+
+    res.json({ succès: true, message: 'Commentaire supprimé' });
+});
+
+// ===========================================
 // ROUTES STATIQUES : Pages admin
 // ===========================================
 
@@ -277,6 +421,11 @@ app.get('/admin/dashboard.html', verifierConnexion, (req, res) => {
 
 app.get('/admin/nouveau.html', verifierConnexion, (req, res) => {
     res.sendFile(path.join(__dirname, 'public/admin/nouveau.html'));
+});
+
+// Nouvelle route pour la page de modification
+app.get('/admin/modifier.html', verifierConnexion, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/admin/modifier.html'));
 });
 
 app.get('/admin/', (req, res) => {
