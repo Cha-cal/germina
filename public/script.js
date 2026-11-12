@@ -77,10 +77,12 @@ async function chargerArticles() {
 
             articleElement.innerHTML = `
                 <img src="${imageUrl}" alt="${article.title}">
-                <h3>${article.title} ${commentBadge}</h3>
-                <time datetime="${article.date}">${formaterDate(article.date)}</time>
-                <p>${article.content}</p>
-                <a href="article.html?id=${article.id}" class="read-more">Lire la suite</a>
+                <div class="card-content">
+                    <h3>${article.title} ${commentBadge}</h3>
+                    <time datetime="${article.date}">${formaterDate(article.date)}</time>
+                    <p>${article.content}</p>
+                    <a href="article.html?id=${article.id}" class="read-more">Lire la suite <span>→</span></a>
+                </div>
             `;
 
             container.appendChild(articleElement);
@@ -139,10 +141,12 @@ async function chargerArticlesToutesLesActus() {
             html += `
                 <article class="news-card">
                     <img src="${imageUrl}" alt="${article.title}">
-                    <h3>${article.title} ${commentBadge}</h3>
-                    <time datetime="${article.date}">${formaterDate(article.date)}</time>
-                    <p>${article.content}</p>
-                    <a href="article.html?id=${article.id}" class="read-more">Lire la suite</a>
+                    <div class="card-content">
+                        <h3>${article.title} ${commentBadge}</h3>
+                        <time datetime="${article.date}">${formaterDate(article.date)}</time>
+                        <p>${article.content}</p>
+                        <a href="article.html?id=${article.id}" class="read-more">Lire la suite <span>→</span></a>
+                    </div>
                 </article>
             `;
         });

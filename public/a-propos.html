@@ -14,7 +14,7 @@
     <header>
         <div class="header-container">
             <!-- Logo du site -->
-            <img src="https://placehold.co/150x50/1a3a6b/white?text=ACTU+LOGO" alt="Logo Actu" class="logo">
+            <img src="/logo.png" alt="Logo Actu" class="logo">
 
             <!-- Bouton hamburger pour mobile -->
             <button id="menu-btn" class="menu-hamburger">☰</button>
@@ -29,31 +29,57 @@
                 </ul>
             </nav>
         </div>
-        <h2>L'actualité en continu</h2>
     </header>
 
-    <!-- Section principale contenant l'article -->
+    <!-- HERO SECTION (Bannière) -->
+    <section class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>À propos de notre site</h1>
+            <p>L'information de qualité, accessible à tous, partout et tout le temps</p>
+        </div>
+    </section>
+
+    <!-- Section principale contenant le contenu -->
     <main>
         <!-- Conteneur principal avec largeur maximale -->
         <div class="content-wrapper">
-            <!-- Titre principal -->
-            <h1>À propos</h1>
+            <!-- Section présentation en 2 colonnes -->
+            <section class="about-section">
+                <div class="about-grid">
+                    <!-- Colonne image -->
+                    <div class="about-image">
+                        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=800" alt="Notre équipe de journalistes au travail" loading="lazy">
+                    </div>
 
-            <!-- Contenu de la page À propos -->
-            <article class="about-content">
-                <p>
-                    Actu est un site d'information dédié à vous fournir l'actualité en continu
-                    du monde entier. Notre mission est de informer les lecteurs avec des
-                    contenus factuels, bien rédigés et accessiblement.
-                </p>
+                    <!-- Colonne texte -->
+                    <div class="about-text">
+                        <h2>Notre mission</h2>
+                        <p>
+                            Actu est un site d'information dédié à vous fournir l'actualité en continu du monde entier.
+                            Notre mission est d'informer les lecteurs avec des contenus factuels, bien rédigés et accessibles.
+                            Nous croyons que l'accès à une information fiable est un droit fondamental.
+                        </p>
 
-                <p>
-                    Fondé en 2026, notre équipe de journalistes passionnés vous offre chaque
-                    jour des chroniques, des enquêtes et des analyses pour rester bien informé
-                    de l'ensemble des événements marquants. Rejoignez notre communauté pour
-                    découvrir l'essentiel du monde d'aujourd'hui.
-                </p>
-            </article>
+                        <h2>Notre histoire</h2>
+                        <p>
+                            Fondé en 2026, notre équipe de journalistes passionnés vous offre chaque jour des chroniques,
+                            des enquêtes et des analyses pour rester bien informé de l'ensemble des événements marquants.
+                            Ce qui a commencé comme un petit projet est devenu une référence pour des milliers de lecteurs.
+                        </p>
+
+                        <h2>Nos valeurs</h2>
+                        <p>
+                            <strong>Rigueur :</strong> Chaque information est vérifiée avant publication.<br>
+                            <strong>Indépendance :</strong> Aucun parti pris, aucune influence extérieure.<br>
+                            <strong>Clarté :</strong> Des articles lisibles, sans jargon inutile.
+                        </p>
+                        <p>
+                            Rejoignez notre communauté pour découvrir l'essentiel du monde d'aujourd'hui.
+                        </p>
+                    </div>
+                </div>
+            </section>
         </div>
     </main>
 
