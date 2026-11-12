@@ -349,6 +349,132 @@ header h2 {
 }
 
 /* ===========================================
+   CLASSES POUR LES COMMENTAIRES
+   =========================================== */
+
+.avatar-commentaire {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #1a3a6b;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    flex-shrink: 0;
+    margin-right: 10px;
+}
+
+.entete-commentaire {
+    display: flex;
+    align-items: center;
+}
+
+/* ===========================================
+   TABLEAU DE BORD ADMIN
+   =========================================== */
+
+.dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.dashboard-section {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 30px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.dashboard-section h2 {
+    font-size: 1.35rem;
+    color: #1a3a6b;
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #edf2f7;
+}
+
+#liste-brouillons,
+#liste-publies {
+    margin-top: 15px;
+}
+
+.article-admin {
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.article-admin h3 {
+    margin: 0 0 4px 0;
+    color: #1a3a6b;
+    font-size: 1.1rem;
+}
+
+.article-admin p {
+    margin: 0;
+    color: #64748b;
+    font-size: 0.9rem;
+}
+
+.article-admin-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.btn-admin {
+    background-color: #1a3a6b;
+    color: #ffffff;
+    border: none;
+    padding: 7px 12px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-admin:hover {
+    background-color: #2c5282;
+}
+
+.btn-publier {
+    background-color: #28a745;
+}
+
+.btn-publier:hover {
+    background-color: #218838;
+}
+
+.btn-supprimer {
+    background-color: #dc3545;
+}
+
+.btn-supprimer:hover {
+    background-color: #c82333;
+}
+
+.btn-commentaires {
+    background-color: #17a2b8;
+}
+
+.btn-commentaires:hover {
+    background-color: #138496;
+}
+
+/* ===========================================
    RÉSPONSIVE
    =========================================== */
 

@@ -7,16 +7,34 @@ const dbPath = path.join(__dirname, 'data.db');
 // Ouvrir (ou créer) la base de données
 const db = new Database(dbPath);
 
-// Créer la table "articles" si elle n'existe pas déjà
+// Créer la table "articles" et la table "commentaires" si elles n'existent pas déjà
 db.exec(`
     CREATE TABLE IF NOT EXISTS articles (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         titre TEXT NOT NULL,
         contenu TEXT NOT NULL,
         image_url TEXT NOT NULL,
-        date_publication TEXT NOT NULL
-    )
+        date_publication TEXT NOT NULL,
+        statut TEXT DEFAULT 'publie'
+    );
+
+    CREATE TABLE IF NOT EXISTS commentaires (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        article_id INTEGER NOT NULL,
+        nom TEXT NOT NULL,
+        message TEXT NOT NULL,
+        date_creation TEXT NOT NULL,
+        FOREIGN KEY (article_id) REFERENCES articles(id) ON DELETE CASCADE
+    );
 `);
+
+// Migration : Ajouter la colonne "statut" si la table existait déjà sans cette colonne
+try {
+    db.exec(`ALTER TABLE articles ADD COLUMN statut TEXT DEFAULT 'publie'`);
+    console.log('Colonne "statut" ajoutée à la table articles.');
+} catch (err) {
+    // Si la colonne existe déjà, SQLite renvoie une erreur qu'on ignore
+}
 
 // Fonction pour insérer les articles de test si la table est vide
 function initialiserArticlesDeTest() {
@@ -67,8 +85,24 @@ module.exports = {
         const stmt = db.prepare('SELECT * FROM articles ORDER BY id DESC');
         return stmt.all();
     },
+    obtenirArticlesPublies: () => {
+        const stmt = db.prepare("SELECT * FROM articles WHERE statut = 'publie' ORDER BY id DESC");
+        return stmt.all();
+    },
     obtenirArticleParId: (id) => {
         const stmt = db.prepare('SELECT * FROM articles WHERE id = ?');
         return stmt.get(id);
+    },
+    obtenirCommentairesParArticleId: (articleId) => {
+        const stmt = db.prepare('SELECT * FROM commentaires WHERE article_id = ? ORDER BY id DESC');
+        return stmt.all(articleId);
+    },
+    ajouterCommentaire: (articleId, nom, message) => {
+        const dateCreation = new Date().toISOString();
+        const stmt = db.prepare(`
+            INSERT INTO commentaires (article_id, nom, message, date_creation)
+            VALUES (?, ?, ?, ?)
+        `);
+        return stmt.run(articleId, nom, message, dateCreation);
     }
 };

@@ -12,10 +12,17 @@ document.addEventListener('DOMContentLoaded', () => {
             messageErreur.style.display = 'none';
             messageSuccess.style.display = 'none';
 
-            // Créer FormData pour envoyer texte + fichier
+            // Déterminer le statut selon le bouton cliqué (Publier ou Brouillon)
+            let statut = 'publie';
+            if (e.submitter && e.submitter.value) {
+                statut = e.submitter.value;
+            }
+
+            // Créer FormData pour envoyer texte + fichier + statut
             const formData = new FormData();
             formData.append('titre', document.getElementById('titre').value);
             formData.append('contenu', document.getElementById('contenu').value);
+            formData.append('statut', statut);
 
             const imageFile = document.getElementById('image').files[0];
             if (imageFile) {

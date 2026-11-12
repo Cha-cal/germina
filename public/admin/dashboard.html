@@ -26,18 +26,31 @@
 
     <!-- Contenu du tableau de bord -->
     <main>
-        <div class="content-wrapper">
-            <h1>Tableau de bord</h1>
-
-            <div class="dashboard-content">
-                <p>Bienvenue dans votre espace d'administration. Ici, vous pouvez gérer les articles,
-                les utilisateurs et les paramètres du site.</p>
-
-                <div class="dashboard-actions">
-                    <a href="nouveau.html" class="view-all-button">Écrire un nouvel article</a>
-                    <button onclick="seDeconnecter()" class="contact-submit">Se déconnecter</button>
-                </div>
+        <div class="content-wrapper dashboard-wrapper">
+            <div class="dashboard-header-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                <h1>Tableau de bord</h1>
+                <button onclick="seDeconnecter()" class="contact-submit" style="background-color: #dc3545;">Se déconnecter</button>
             </div>
+
+            <!-- Bloc 1 : Nouvelle publication -->
+            <section class="dashboard-section">
+                <h2>Nouvelle publication</h2>
+                <div class="dashboard-actions">
+                    <a href="nouveau.html" class="view-all-button btn-large">➕ Écrire un nouvel article</a>
+                </div>
+            </section>
+
+            <!-- Bloc 2 : Mes Brouillons -->
+            <section class="dashboard-section">
+                <h2>Mes Brouillons</h2>
+                <div id="liste-brouillons"></div>
+            </section>
+
+            <!-- Bloc 3 : Publications en ligne -->
+            <section class="dashboard-section">
+                <h2>Publications en ligne</h2>
+                <div id="liste-publies"></div>
+            </section>
         </div>
     </main>
 
@@ -54,5 +67,6 @@
 
     <!-- Script pour la déconnexion -->
     <script src="script-admin.js"></script>
+    <script src="admin-dashboard.js"></script>
 </body>
 </html>

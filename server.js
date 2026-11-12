@@ -4,7 +4,7 @@ const session = require('express-session');
 const bcrypt = require('bcrypt');
 const multer = require('multer');
 const fs = require('fs');
-const { obtenirTousLesArticles, obtenirArticleParId, db } = require('./db');
+const { obtenirTousLesArticles, obtenirArticlesPublies, obtenirArticleParId, obtenirCommentairesParArticleId, ajouterCommentaire, db } = require('./db');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -100,7 +100,29 @@ app.use(express.json());
 // ROUTES API - ARTICLES
 // ===========================================
 
+// Route publique : GET /api/articles - Récupérer seulement les articles publiés
 app.get('/api/articles', (req, res) => {
+    try {
+        const articles = obtenirArticlesPublies();
+
+        const articlesFormattes = articles.map(article => ({
+            id: article.id,
+            title: article.titre,
+            content: article.contenu,
+            image: article.image_url,
+            date: article.date_publication,
+            statut: article.statut
+        }));
+
+        res.json(articlesFormattes);
+    } catch (erreur) {
+        console.error('Erreur lors de la récupération des articles :', erreur);
+        res.status(500).json({ erreur: 'Erreur interne du serveur' });
+    }
+});
+
+// Route admin (protégée) : GET /api/admin/articles - Récupérer TOUS les articles (publiés et brouillons)
+app.get('/api/admin/articles', verifierConnexion, (req, res) => {
     try {
         const articles = obtenirTousLesArticles();
 
@@ -109,12 +131,13 @@ app.get('/api/articles', (req, res) => {
             title: article.titre,
             content: article.contenu,
             image: article.image_url,
-            date: article.date_publication
+            date: article.date_publication,
+            statut: article.statut
         }));
 
         res.json(articlesFormattes);
     } catch (erreur) {
-        console.error('Erreur lors de la récupération des articles :', erreur);
+        console.error('Erreur lors de la récupération des articles admin :', erreur);
         res.status(500).json({ erreur: 'Erreur interne du serveur' });
     }
 });
@@ -137,9 +160,29 @@ app.get('/api/articles/:id', (req, res) => {
         id: article.id,
         title: article.titre,
         content: article.contenu,
-        image: article.image_url,
-        date: article.date_publication
+        image_url: article.image_url,
+        date_publication: article.date_publication
     });
+});
+
+// Route : GET /api/articles/:id/commentaires - Récupérer les commentaires
+app.get('/api/articles/:id/commentaires', (req, res) => {
+    const articleId = parseInt(req.params.id);
+    const commentaires = obtenirCommentairesParArticleId(articleId);
+    res.json(commentaires);
+});
+
+// Route : POST /api/articles/:id/commentaires - Ajouter un commentaire
+app.post('/api/articles/:id/commentaires', (req, res) => {
+    const articleId = parseInt(req.params.id);
+    const { nom, message } = req.body;
+
+    if (!nom || !message) {
+        return res.status(400).json({ erreur: 'Nom et message requis' });
+    }
+
+    ajouterCommentaire(articleId, nom, message);
+    res.json({ succès: true, message: 'Commentaire publié' });
 });
 
 // ===========================================
@@ -174,15 +217,18 @@ app.post('/api/logout', (req, res) => {
 });
 
 // ===========================================
-// ROUTE : PUBLICATION D'UN NOUVEAU ARTICLE (PROTEGEE)
+// ROUTE : PUBLICATION / BROUILLON D'UN ARTICLE (PROTEGEE)
 // ===========================================
 
 app.post('/api/admin/articles', verifierConnexion, upload.single('image'), (req, res) => {
-    const { titre, contenu } = req.body;
+    const { titre, contenu, statut } = req.body;
 
     if (!titre || !contenu) {
         return res.status(400).json({ succès: false, message: 'Titre et contenu sont requis' });
     }
+
+    // Le statut doit être 'publie' ou 'brouillon'
+    const statutFinal = statut === 'brouillon' ? 'brouillon' : 'publie';
 
     // Chemin de l'image dans le serveur
     const imagePath = req.file ? `/uploads/${req.file.filename}` : null;
@@ -190,20 +236,25 @@ app.post('/api/admin/articles', verifierConnexion, upload.single('image'), (req,
 
     try {
         const insertStmt = db.prepare(`
-            INSERT INTO articles (titre, contenu, image_url, date_publication)
-            VALUES (?, ?, ?, ?)
+            INSERT INTO articles (titre, contenu, image_url, date_publication, statut)
+            VALUES (?, ?, ?, ?, ?)
         `);
 
-        insertStmt.run(titre, contenu, imagePath, datepublication);
+        insertStmt.run(titre, contenu, imagePath, datepublication, statutFinal);
+
+        const messageSucces = statutFinal === 'brouillon'
+            ? 'Brouillon enregistré avec succès'
+            : 'Article publié avec succès';
 
         res.json({
             succès: true,
-            message: 'Article publié avec succès',
+            message: messageSucces,
             article: {
                 titre: titre,
                 contenu: contenu,
                 image: imagePath,
-                date: datepublication
+                date: datepublication,
+                statut: statutFinal
             }
         });
     } catch (erreur) {

@@ -48,7 +48,10 @@
                         <input type="file" id="image" name="image" class="form-input" accept="image/*">
                     </div>
 
-                    <button type="submit" class="contact-submit">Publier</button>
+                    <div class="form-actions" style="display: flex; gap: 10px; margin-top: 15px;">
+                        <button type="submit" id="btn-publier" name="action" value="publie" class="contact-submit">Publier</button>
+                        <button type="submit" id="btn-brouillon" name="action" value="brouillon" class="btn-admin" style="padding: 0.75rem 1.5rem; font-size: 1rem; background-color: #6c757d; border: none; border-radius: 6px; color: white; cursor: pointer;">Enregistrer en brouillon</button>
+                    </div>
                 </form>
 
                 <p id="message-erreur" class="error-message" style="display: none;"></p>
@@ -68,6 +71,7 @@
         </div>
     </footer>
 
+    <script src="script-admin.js"></script>
     <script src="script-nouveau.js"></script>
 </body>
 </html>
