@@ -33,9 +33,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         const checkbox = document.getElementById('statut-publie');
         const statut = checkbox.checked ? 'publie' : 'brouillon';
 
+        // Récupérer les valeurs AVEC .trim()
+        const titre = document.getElementById('titre').value.trim();
+        const contenu = document.getElementById('contenu').value.trim();
+
+        // Validation côté client
+        if (!titre || !contenu) {
+            messageErreur.textContent = 'Veuillez remplir tous les champs';
+            messageErreur.style.display = 'block';
+            return;
+        }
+
         const formData = new FormData();
-        formData.append('titre', document.getElementById('titre').value);
-        formData.append('contenu', document.getElementById('contenu').value);
+        formData.append('titre', titre);
+        formData.append('contenu', contenu);
         formData.append('statut', statut);
 
         const imageFile = document.getElementById('image').files[0];

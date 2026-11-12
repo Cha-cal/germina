@@ -289,13 +289,14 @@ document.addEventListener('DOMContentLoaded', () => {
         form.addEventListener('submit', async (e) => {
             e.preventDefault(); // Empêcher le rechargement de la page
 
-            const nom = document.getElementById('nom-commentaire').value;
-            const message = document.getElementById('message-commentaire').value;
+            const nom = document.getElementById('nom-commentaire').value.trim();
+            const message = document.getElementById('message-commentaire').value.trim();
             const urlParams = new URLSearchParams(window.location.search);
             const articleId = urlParams.get('id');
 
+            // Validation côté client : vérifier que les champs ne sont pas vides (après trim)
             if (!articleId || !nom || !message) {
-                alert('Données incomplètes');
+                alert('Veuillez remplir tous les champs');
                 return;
             }
 
@@ -340,13 +341,14 @@ document.addEventListener('DOMContentLoaded', () => {
         form.addEventListener('submit', async (e) => {
             e.preventDefault(); // Empêcher le rechargement de la page
 
-            // Récupérer les valeurs des champs
-            const nom = document.getElementById('contact-nom').value;
-            const email = document.getElementById('contact-email').value;
-            const message = document.getElementById('contact-message').value;
+            // Récupérer les valeurs des champs AVEC .trim()
+            const nom = document.getElementById('contact-nom').value.trim();
+            const email = document.getElementById('contact-email').value.trim();
+            const message = document.getElementById('contact-message').value.trim();
 
+            // Validation côté client : vérifier que les champs ne sont pas vides (après trim)
             if (!nom || !email || !message) {
-                messageReponse.textContent = 'Tous les champs sont requis.';
+                messageReponse.textContent = 'Veuillez remplir tous les champs';
                 messageReponse.style.color = 'red';
                 messageReponse.style.display = 'block';
                 return;

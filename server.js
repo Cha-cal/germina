@@ -187,11 +187,15 @@ app.post('/api/articles/:id/commentaires', (req, res) => {
     const articleId = parseInt(req.params.id);
     const { nom, message } = req.body;
 
-    if (!nom || !message) {
+    // Validation côté serveur : trim + vérification non-vide
+    const nomTrim = nom ? nom.trim() : '';
+    const messageTrim = message ? message.trim() : '';
+
+    if (!nomTrim || !messageTrim) {
         return res.status(400).json({ erreur: 'Nom et message requis' });
     }
 
-    ajouterCommentaire(articleId, nom, message);
+    ajouterCommentaire(articleId, nomTrim, messageTrim);
     res.json({ succès: true, message: 'Commentaire publié' });
 });
 
@@ -199,17 +203,22 @@ app.post('/api/articles/:id/commentaires', (req, res) => {
 app.post('/api/contact', (req, res) => {
     const { nom, email, message } = req.body;
 
-    if (!nom || !email || !message) {
+    // Validation côté serveur : trim + vérification non-vide
+    const nomTrim = nom ? nom.trim() : '';
+    const emailTrim = email ? email.trim() : '';
+    const messageTrim = message ? message.trim() : '';
+
+    if (!nomTrim || !emailTrim || !messageTrim) {
         return res.status(400).json({ succès: false, message: 'Tous les champs sont requis' });
     }
 
     // Validation email basique
-    if (!email.includes('@') || !email.includes('.')) {
+    if (!emailTrim.includes('@') || !emailTrim.includes('.')) {
         return res.status(400).json({ succès: false, message: 'Email invalide' });
     }
 
     try {
-        ajouterMessageContact(nom, email, message);
+        ajouterMessageContact(nomTrim, emailTrim, messageTrim);
         res.json({ succès: true, message: 'Message envoyé avec succès' });
     } catch (erreur) {
         console.error('Erreur lors de l\'enregistrement du message:', erreur);
@@ -313,7 +322,11 @@ app.post('/api/logout', (req, res) => {
 app.post('/api/admin/articles', verifierConnexion, upload.single('image'), (req, res) => {
     const { titre, contenu, statut } = req.body;
 
-    if (!titre || !contenu) {
+    // Validation côté serveur : trim + vérification non-vide
+    const titreTrim = titre ? titre.trim() : '';
+    const contenuTrim = contenu ? contenu.trim() : '';
+
+    if (!titreTrim || !contenuTrim) {
         return res.status(400).json({ succès: false, message: 'Titre et contenu sont requis' });
     }
 
@@ -418,7 +431,11 @@ app.put('/api/admin/articles/:id', verifierConnexion, upload.single('image'), (r
     const id = parseInt(req.params.id);
     const { titre, contenu, statut } = req.body;
 
-    if (!titre || !contenu) {
+    // Validation côté serveur : trim + vérification non-vide
+    const titreTrim = titre ? titre.trim() : '';
+    const contenuTrim = contenu ? contenu.trim() : '';
+
+    if (!titreTrim || !contenuTrim) {
         return res.status(400).json({ succès: false, message: 'Titre et contenu sont requis' });
     }
 
