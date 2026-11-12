@@ -111,7 +111,8 @@ app.get('/api/articles', (req, res) => {
             content: article.contenu,
             image: article.image_url,
             date: article.date_publication,
-            statut: article.statut
+            statut: article.statut,
+            nombre_commentaires: article.nombre_commentaires || 0
         }));
 
         res.json(articlesFormattes);
@@ -124,7 +125,15 @@ app.get('/api/articles', (req, res) => {
 // Route admin (protégée) : GET /api/admin/articles - Récupérer TOUS les articles (publiés et brouillons)
 app.get('/api/admin/articles', verifierConnexion, (req, res) => {
     try {
-        const articles = obtenirTousLesArticles();
+        // Pour l'admin, on doit aussi compter les commentaires
+        const articles = db.prepare(`
+            SELECT a.*,
+                   COUNT(c.id) as nombre_commentaires
+            FROM articles a
+            LEFT JOIN commentaires c ON c.article_id = a.id
+            GROUP BY a.id
+            ORDER BY a.id DESC
+        `).all();
 
         const articlesFormattes = articles.map(article => ({
             id: article.id,
@@ -132,7 +141,8 @@ app.get('/api/admin/articles', verifierConnexion, (req, res) => {
             content: article.contenu,
             image: article.image_url,
             date: article.date_publication,
-            statut: article.statut
+            statut: article.statut,
+            nombre_commentaires: article.nombre_commentaires || 0
         }));
 
         res.json(articlesFormattes);

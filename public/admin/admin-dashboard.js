@@ -75,10 +75,19 @@ function créerElementArticle(article, type) {
         day: 'numeric'
     });
 
+    // Badge commentaires pour l'admin
+    const nbCommentaires = article.nombre_commentaires || 0;
+    const commentBadge = nbCommentaires > 0
+        ? `<span class="comment-badge" style="margin-left: 10px;">💬 ${nbCommentaires}</span>`
+        : '';
+    const commentButtonLabel = nbCommentaires > 0
+        ? `💬 Gérer les commentaires (${nbCommentaires})`
+        : '💬 Gérer les commentaires';
+
     if (type === 'brouillon') {
         articleElement.innerHTML = `
             <div>
-                <h3>${titre}</h3>
+                <h3>${titre} ${commentBadge}</h3>
                 <p>Date : ${dateFormatee}</p>
             </div>
             <div class="article-admin-actions">
@@ -89,13 +98,13 @@ function créerElementArticle(article, type) {
     } else {
         articleElement.innerHTML = `
             <div>
-                <h3>${titre}</h3>
+                <h3>${titre} ${commentBadge}</h3>
                 <p>Date : ${dateFormatee}</p>
             </div>
             <div class="article-admin-actions">
                 <button class="btn-admin btn-modifier" title="Modifier" data-action="modifier" data-id="${article.id}">✏️ Modifier</button>
                 <button class="btn-admin btn-supprimer" title="Supprimer l'article" data-action="supprimer" data-id="${article.id}">🗑️ Supprimer l'article</button>
-                <button class="btn-admin btn-commentaires" title="Gérer les commentaires" data-action="commentaires" data-id="${article.id}">💬 Gérer les commentaires</button>
+                <button class="btn-admin btn-commentaires" title="Gérer les commentaires" data-action="commentaires" data-id="${article.id}">${commentButtonLabel}</button>
             </div>
         `;
     }
@@ -126,13 +135,35 @@ function attacherEvenements() {
                     break;
 
                 case 'publier':
-                    // Pour publier un brouillon, on le redirige vers la page de modification
-                    // où il pourra changer le statut
-                    window.location.href = `modifier.html?id=${articleId}`;
+                    await publierArticle(articleId);
                     break;
             }
         });
     });
+}
+
+async function publierArticle(id) {
+    try {
+        const response = await fetch(`/api/admin/articles/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ statut: 'publie' })
+        });
+
+        const result = await response.json();
+
+        if (result.succès) {
+            // Recharger la page pour mettre à jour les listes
+            window.location.reload();
+        } else {
+            alert(result.message || 'Erreur lors de la publication');
+        }
+    } catch (erreur) {
+        console.error('Erreur:', erreur);
+        alert('Erreur de connexion au serveur');
+    }
 }
 
 async function supprimerArticle(id) {

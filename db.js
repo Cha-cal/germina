@@ -86,7 +86,15 @@ module.exports = {
         return stmt.all();
     },
     obtenirArticlesPublies: () => {
-        const stmt = db.prepare("SELECT * FROM articles WHERE statut = 'publie' ORDER BY id DESC");
+        const stmt = db.prepare(`
+            SELECT a.*,
+                   COUNT(c.id) as nombre_commentaires
+            FROM articles a
+            LEFT JOIN commentaires c ON c.article_id = a.id
+            WHERE a.statut = 'publie'
+            GROUP BY a.id
+            ORDER BY a.id DESC
+        `);
         return stmt.all();
     },
     obtenirArticleParId: (id) => {

@@ -163,6 +163,21 @@ header h2 {
     text-decoration: underline;
 }
 
+/* Badge nombre de commentaires */
+.comment-badge {
+    background-color: #1a3a6b;
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 12px;
+    margin-left: 8px;
+    vertical-align: middle;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
 /* ===========================================
    PAGE D'ARTICLE DÉTAILLÉ
    =========================================== */

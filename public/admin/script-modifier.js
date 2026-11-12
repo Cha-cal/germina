@@ -29,14 +29,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         messageErreur.style.display = 'none';
         messageSuccess.style.display = 'none';
 
-        // Déterminer le statut selon le bouton cliqué
-        let statut = 'publie';
-        if (e.submitter && e.submitter.value) {
-            statut = e.submitter.value;
-        } else {
-            // Pour modifier.html, on récupère la valeur du select
-            statut = document.getElementById('statut').value;
-        }
+        // Déterminer le statut selon la checkbox
+        const checkbox = document.getElementById('statut-publie');
+        const statut = checkbox.checked ? 'publie' : 'brouillon';
 
         const formData = new FormData();
         formData.append('titre', document.getElementById('titre').value);
@@ -93,7 +88,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.getElementById('article-id').value = article.id;
             document.getElementById('titre').value = article.titre || '';
             document.getElementById('contenu').value = article.contenu || '';
-            document.getElementById('statut').value = article.statut || 'publie';
+
+            // Gérer la checkbox du statut
+            const checkbox = document.getElementById('statut-publie');
+            checkbox.checked = (article.statut === 'publie');
 
             // Afficher l'image actuelle si elle existe
             if (article.image_url) {

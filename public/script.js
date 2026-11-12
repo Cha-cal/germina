@@ -70,9 +70,14 @@ async function chargerArticles() {
             // Utiliser l'image de la base de données ou un placeholder par défaut
             const imageUrl = article.image || 'https://picsum.photos/400/250';
 
+            // Badge nombre de commentaires (seulement si > 0)
+            const commentBadge = article.nombre_commentaires > 0
+                ? `<span class="comment-badge" title="${article.nombre_commentaires} commentaire${article.nombre_commentaires > 1 ? 's' : ''}">💬 ${article.nombre_commentaires}</span>`
+                : '';
+
             articleElement.innerHTML = `
                 <img src="${imageUrl}" alt="${article.title}">
-                <h3>${article.title}</h3>
+                <h3>${article.title} ${commentBadge}</h3>
                 <time datetime="${article.date}">${formaterDate(article.date)}</time>
                 <p>${article.content}</p>
                 <a href="article.html?id=${article.id}" class="read-more">Lire la suite</a>
@@ -128,9 +133,14 @@ async function chargerArticlesToutesLesActus() {
             // Utiliser l'image de la base de données ou un placeholder par défaut
             const imageUrl = article.image || 'https://picsum.photos/400/250';
 
+            // Badge nombre de commentaires (seulement si > 0)
+            const commentBadge = article.nombre_commentaires > 0
+                ? `<span class="comment-badge" title="${article.nombre_commentaires} commentaire${article.nombre_commentaires > 1 ? 's' : ''}">💬 ${article.nombre_commentaires}</span>`
+                : '';
+
             articleElement.innerHTML = `
                 <img src="${imageUrl}" alt="${article.title}">
-                <h3>${article.title}</h3>
+                <h3>${article.title} ${commentBadge}</h3>
                 <time datetime="${article.date}">${formaterDate(article.date)}</time>
                 <p>${article.content}</p>
                 <a href="article.html?id=${article.id}" class="read-more">Lire la suite</a>
