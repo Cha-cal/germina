@@ -15,16 +15,22 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta name="theme-color" content="#ffffff">
 
-<!-- Google Fonts + taste-skill system -->
+<!-- Google Fonts + Modern Design -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Rethink+Sans:wght@400..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Rethink+Sans:wght@400..700&display=swap" rel="stylesheet">
+
+<!-- Taste-skill system -->
 <link rel="stylesheet" href="assets/system.css">
 <link rel="stylesheet" href="assets/ui/cards.css">
 <link rel="stylesheet" href="assets/motion/motion.css">
 <link rel="stylesheet" href="assets/backgrounds/backgrounds.css">
 <link rel="stylesheet" href="assets/layout/layout.css">
 <link rel="stylesheet" href="assets/icons/icon.css">
+
+<!-- Modern redesign CSS -->
+<link rel="stylesheet" href="style.css">
+
 <style>
 :root {
   --p-bg: #ffffff; --p-surface: #f2f2f2; --p-ink: #0a0a0a; --p-muted: #6b6b6b;
@@ -37,173 +43,18 @@
   --display-tracking: -0.025em;
   --display-tracking-xl: -0.035em;
 }
+
+/* Fix: Nav bar constrained to .wrap edges */
+.nav__bar {
+  width: min(100% - 2 * var(--gut), var(--container));
+  margin-inline: auto;
+  padding-inline: 0;
+}
 </style>
 
 <!-- Hero entrance + motion guard -->
 <script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
 <script src="assets/backgrounds/backgrounds.js"></script>
-
-<!-- Moment preload -->
-<link rel="modulepreload" href="assets/moments/moments.js">
-<link rel="modulepreload" href="assets/moments/lib.js">
-<link rel="modulepreload" href="assets/moments/photo-chapters/moment.js">
-<script>document.documentElement.classList.add('mo-js');setTimeout(()=>document.documentElement.classList.add('mo-safe'),2500)</script>
-
-<!-- Page CSS: card height for news grid -->
-<style>
-  .news-grid .card { --p-h: 220px; }
-  @media (max-width: 639px) { .news-grid .card { --p-h: 180px; } }
-
-  /* HERO SECTION (index.html) */
-  .hero-main {
-    position: relative;
-    width: 100%;
-    height: 400px;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://picsum.photos/1200/400');
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: white;
-  }
-  .hero-main h1 {
-    font-size: clamp(2.5rem, 8vw, 4rem);
-    color: white;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
-    margin: 0;
-  }
-
-  /* Fix: Nav bar constrained to .wrap edges */
-  .nav__bar {
-    width: min(100% - 2 * var(--gut), var(--container));
-    margin-inline: auto;
-    padding-inline: 0;
-  }
-
-  /* Fix: Footer legal alignment - use grid properly */
-  .closing__links .footer__legal {
-    grid-column: 1 / -1;
-    margin-top: var(--s-7);
-    padding-top: var(--s-7);
-    border-top: 1px solid var(--line);
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--s-2);
-  }
-
-  /* Fix: Consistent section gaps using layout tokens - NO margins, let layout.css handle it */
-  main#top > section.hero {
-    margin-bottom: 0;
-  }
-  main#top > section.section {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-
-  /* Fix: Error message contrast */
-  #chargement { color: var(--p-muted); }
-  #chargement.error { color: var(--p-accent); }
-
-  /* Fix: Footer grid - ensure columns align to wrap edges */
-  .closing__links .grid {
-    display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    column-gap: var(--gutter);
-    align-items: start;
-  }
-  .closing__links .span-4 { grid-column: auto / span 4; }
-  .closing__links .span-2 { grid-column: auto / span 2; }
-  @media (max-width: 1023px) {
-    .closing__links .span-4,
-    .closing__links .span-2 { grid-column: auto / span 6; }
-  }
-  @media (max-width: 639px) {
-    .closing__links .span-4,
-    .closing__links .span-2 { grid-column: 1 / -1; }
-  }
-
-  /* Fix: Footer legal text - align to container left edge, allow wrapping */
-  .footer__legal {
-    width: 100%;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--s-2);
-    margin-top: var(--s-5);
-    text-align: left;
-  }
-  .footer__legal p {
-    margin: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--s-3);
-    align-items: center;
-    justify-content: flex-start;
-    width: 100%;
-    text-align: left;
-  }
-  .footer__legal a {
-    max-width: 100%;
-    word-break: break-word;
-  }
-  .footer__legal .credits {
-    align-self: flex-start;
-  }
-
-  /* Fix: Credits link too long on mobile - force wrap at 320px */
-  @media (max-width: 390px) {
-    .footer__legal .credits {
-      white-space: normal !important;
-      word-break: break-all;
-      max-width: 100%;
-    }
-    .footer__legal p {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: var(--s-2);
-    }
-  }
-
-  /* Fix: Section gaps - let layout.css handle rhythm, don't override */
-  main#top > section.hero,
-  main#top > section.section {
-    margin: 0;
-  }
-
-  /* Fix: Mobile overflow prevention */
-  @media (max-width: 390px) {
-    .nav__toggle { padding: 4px; }
-    .nav__bar { gap: var(--s-3); }
-    html { overflow-x: clip; }
-    body { overflow-x: clip; }
-  }
-
-  /* SECTION BANNIÈRE BAS DE PAGE */
-  .banner-section {
-    padding-block: var(--s-4);
-  }
-  .banner-container {
-    width: 100%;
-    border-radius: var(--r-lg);
-    overflow: hidden;
-  }
-  .banner-img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-  }
-  @media (max-width: 639px) {
-    .banner-section { padding-block: var(--s-3); }
-    .banner-img { height: 150px; }
-  }
-</style>
 </head>
 <body>
 
@@ -225,28 +76,21 @@
 </header>
 
 <main id="top">
-  <!-- HERO SECTION (DESSIN) -->
+  <!-- HERO SECTION - Modern Design -->
   <section class="hero-main">
     <div class="wrap">
       <h1>L'ACTUALITÉ EN CONTINU</h1>
     </div>
   </section>
 
-  <!-- SECTION: Latest articles grid (with photo-chapters moment) -->
-  <section class="section" id="latest" data-moment="photo-chapters" aria-labelledby="latest-h">
+  <!-- SECTION: Latest articles grid -->
+  <section class="section" id="latest" aria-labelledby="latest-h">
     <div class="wrap">
       <div class="section-head">
         <h2 id="latest-h">Dernières actualités</h2>
         <p class="muted">Les articles les plus récents, mis à jour en temps réel</p>
       </div>
-      <!-- photo-chapters will populate with article previews -->
-      <div class="chapters" data-chapters='[
-        {"title": "En direct", "text": "Suivez l\'actualité minute par minute. Notre rédaction couvre les événements au fil de l\'eau.", "image": "https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=1200", "alt": "Journaliste en direct"},
-        {"title": "Analyses", "text": "Des décryptages approfondis pour comprendre les enjeux derrière les titres.", "image": "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?q=80&w=800", "alt": "Analyse de données"},
-        {"title": "Reportages", "text": "Sur le terrain, nos reporters racontent le monde vu d\'ici.", "image": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=800", "alt": "Reportage sur le terrain"}
-      ]'></div>
-      <!-- Fallback grid for dynamic articles (max 3 articles) -->
-      <div class="grid news-grid" id="liste-articles" style="margin-top: var(--ly-head-gap);">
+      <div class="grid news-grid" id="liste-articles">
         <p id="chargement" style="grid-column: 1 / -1; text-align: center; padding: var(--s-7); color: var(--p-muted);">Chargement des actualités...</p>
       </div>
       <!-- Bouton centré TOUT LIRE -->

@@ -2,7 +2,7 @@
 <html lang="fr" data-type="service" data-radius="soft" data-motion>
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale-1, viewport-fit=cover">
 <title>Contact · Actu</title>
 <meta name="description" content="Contactez l'équipe d'Actu pour vos questions, suggestions ou signalements. Nous vous répondons sous 48h.">
 <meta name="site-kind" content="other">
@@ -15,16 +15,22 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta name="theme-color" content="#ffffff">
 
-<!-- Google Fonts + taste-skill system -->
+<!-- Google Fonts + Modern Design -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Rethink+Sans:wght@400..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Rethink+Sans:wght@400..700&display=swap" rel="stylesheet">
+
+<!-- Taste-skill system -->
 <link rel="stylesheet" href="assets/system.css">
 <link rel="stylesheet" href="assets/ui/cards.css">
 <link rel="stylesheet" href="assets/motion/motion.css">
 <link rel="stylesheet" href="assets/backgrounds/backgrounds.css">
 <link rel="stylesheet" href="assets/layout/layout.css">
 <link rel="stylesheet" href="assets/icons/icon.css">
+
+<!-- Modern redesign CSS -->
+<link rel="stylesheet" href="style.css">
+
 <style>
 :root {
   --p-bg: #ffffff; --p-surface: #f2f2f2; --p-ink: #0a0a0a; --p-muted: #6b6b6b;
@@ -37,79 +43,18 @@
   --display-tracking: -0.025em;
   --display-tracking-xl: -0.035em;
 }
+
+/* Fix: Nav bar constrained to .wrap edges */
+.nav__bar {
+  width: min(100% - 2 * var(--gut), var(--container));
+  margin-inline: auto;
+  padding-inline: 0;
+}
 </style>
 
 <!-- Hero entrance + motion guard -->
 <script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
 <script src="assets/backgrounds/backgrounds.js"></script>
-
-<!-- Page CSS: custom contact styles -->
-<style>
-  /* Fix: Nav bar constrained to .wrap edges */
-  .nav__bar {
-    width: min(100% - 2 * var(--gut), var(--container));
-    margin-inline: auto;
-    padding-inline: 0;
-  }
-
-  /* Contact form shadowed box */
-  .contact-card {
-    background: var(--p-bg);
-    padding: var(--s-7);
-    border-radius: var(--r-lg);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-    max-width: 600px;
-    margin-inline: auto;
-  }
-
-  /* Fix: Footer legal alignment */
-  .footer__legal {
-    width: 100%;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--s-2);
-    margin-top: var(--s-5);
-    text-align: left;
-  }
-  .footer__legal p {
-    margin: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--s-3);
-    align-items: center;
-    justify-content: flex-start;
-    width: 100%;
-    text-align: left;
-  }
-
-  /* Fix: Footer grid - ensure columns align to wrap edges */
-  .closing__links .grid {
-    display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    column-gap: var(--gutter);
-    align-items: start;
-  }
-  .closing__links .span-4 { grid-column: auto / span 4; }
-  .closing__links .span-2 { grid-column: auto / span 2; }
-  @media (max-width: 1023px) {
-    .closing__links .span-4,
-    .closing__links .span-2 { grid-column: auto / span 6; }
-  }
-  @media (max-width: 639px) {
-    .closing__links .span-4,
-    .closing__links .span-2 { grid-column: 1 / -1; }
-  }
-
-  /* Fix: Mobile overflow prevention */
-  @media (max-width: 390px) {
-    .nav__toggle { padding: 4px; }
-    .nav__bar { gap: var(--s-3); }
-    html { overflow-x: clip; }
-    body { overflow-x: clip; }
-  }
-</style>
 </head>
 <body>
 
@@ -131,11 +76,11 @@
 </header>
 
 <main id="top">
-  <!-- HERO: simple compact hero per drawing -->
-  <section class="hero hero--compact" data-enter aria-labelledby="hero-h" style="padding-block: var(--s-6);">
+  <!-- HERO SECTION - Modern Design -->
+  <section class="hero hero--compact" style="padding-block: var(--s-6);">
     <div class="wrap">
       <div class="hero-text">
-        <h1 id="hero-h" style="font-size: clamp(2rem, 5vw, 3rem);">Contact</h1>
+        <h1>Contact</h1>
       </div>
     </div>
   </section>
@@ -164,8 +109,8 @@
             <textarea id="contact-message" name="message" class="form-input" placeholder="Votre message..." required aria-describedby="contact-message-err" style="min-height: 140px;"></textarea>
             <p class="field__error" id="contact-message-err" hidden>Écrivez votre message.</p>
           </div>
-          <div class="btn-row" style="margin-top: var(--s-6); justify-content: center;">
-            <button type="submit" class="btn btn--primary btn--xl">Envoyer le message<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></button>
+          <div style="display: flex; justify-content: center; margin-top: 24px;">
+            <button type="submit" class="btn btn--primary">Envoyer le message<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></button>
           </div>
           <p class="form__status" role="status" data-form-status></p>
         </form>
