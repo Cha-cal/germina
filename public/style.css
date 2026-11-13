@@ -56,7 +56,7 @@ body {
     margin: 0 auto 30px auto;
     border-radius: 20px;
     overflow: hidden;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://picsum.photos/1200/400');
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=1200');
     background-size: cover;
     background-position: center;
     display: flex;
@@ -75,24 +75,16 @@ body {
     margin: 0;
 }
 
-/* Section spacing after hero - ensure first article appears in view */
-.hero-main + .section {
-    padding-top: var(--s-7);
-    padding-bottom: var(--s-9);
-}
-
-.hero-main + .section .wrap {
-    padding-top: 0;
-}
-
 /* ===========================================
-   4. CARTES D'ARTICLES - MODERNES
+   4. GRILLE D'ARTICLES - 3 COLONNES
    =========================================== */
 
+#liste-articles,
+#toutes-les-articles,
 .news-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 30px !important;
 }
 
 .news-card {
@@ -125,9 +117,9 @@ body {
 }
 
 .news-card h3 {
-    font-size: 1.125rem;
-    font-weight: 600;
-    margin: 0 0 8px 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 12px 0;
     color: #222222;
     line-height: 1.3;
 }
@@ -138,7 +130,7 @@ body {
     margin: 0 0 16px 0;
 }
 
-.news-card .card-excerpt {
+.news-card p {
     font-size: 1rem;
     color: #555555;
     margin: 0 0 20px 0;
@@ -146,7 +138,8 @@ body {
     flex-grow: 1;
 }
 
-.news-card .btn-read-more {
+.news-card .read-more,
+.btn-read-more {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -157,8 +150,23 @@ body {
     transition: color 0.2s ease;
 }
 
-.news-card .btn-read-more:hover {
+.news-card .read-more:hover,
+.btn-read-more:hover {
     color: #2c5282;
+}
+
+/* Bouton TOUT LIRE */
+#toutes-les-articles .btn-row,
+.section .btn-row {
+    text-align: center;
+    margin-top: 30px;
+}
+
+#toutes-les-articles .btn--primary,
+.section .btn--primary {
+    width: fit-content;
+    max-width: 300px;
+    margin: 0 auto;
 }
 
 /* ===========================================
@@ -199,6 +207,11 @@ body {
     outline-offset: 2px;
 }
 
+.btn--xl {
+    padding: 14px 28px;
+    font-size: 1.125rem;
+}
+
 /* ===========================================
    6. FORMULAIRES - MODERNES
    =========================================== */
@@ -210,8 +223,7 @@ body {
     max-width: 600px;
 }
 
-.contact-card,
-.form-card {
+.contact-card {
     background: #ffffff;
     padding: 32px;
     border-radius: 12px;
@@ -273,9 +285,10 @@ body {
 
 /* Tablette - 2 colonnes */
 @media (max-width: 1023px) {
-    .news-grid {
+    #liste-articles,
+    #toutes-les-articles {
         grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
+        gap: 24px;
     }
 
     .hero-main {
@@ -285,10 +298,11 @@ body {
 
 /* Mobile - 768px et moins */
 @media (max-width: 768px) {
-    /* Un seul titre */
-    .news-grid {
+    /* Une seule colonne sur mobile */
+    #liste-articles,
+    #toutes-les-articles {
         grid-template-columns: 1fr;
-        gap: 16px;
+        gap: 20px;
     }
 
     .hero-main {
@@ -308,16 +322,17 @@ body {
         padding: 16px;
     }
 
+    .news-card h3 {
+        font-size: 1.25rem;
+    }
+
     .contact-card {
         padding: 24px;
     }
 
-    .news-container {
-        padding: 0 16px;
-    }
-
-    .content-wrapper {
-        padding: 16px;
+    #toutes-les-articles .btn--primary,
+    #liste-articles .btn--primary {
+        margin-top: 20px;
     }
 }
 
