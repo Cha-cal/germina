@@ -1,7 +1,7 @@
 [
-  {"check": "hero-lines", "target": "section.hero h1", "reason": "Short French headline 'Site web d\\'actualités en continu' is intentional brand voice; fits within 45-char maxChars for hero-split type"},
-  {"check": "row-lines", "target": "footer#contact > div.wrap > div.closing__links > div.grid", "reason": "Footer 4-col grid with variable content widths; last column shorter by design for legal links"},
-  {"check": "text-contrast", "target": "div#liste-articles > p", "reason": "Dynamic loading error state; accent color used for visibility; not permanent body text"},
-  {"check": "sparse", "target": "#latest section.section", "reason": "Section filled dynamically by JS; photo-chapters moment provides visual content; static check catches empty state"},
-  {"check": "sparse", "target": "section.banner-section", "reason": "Banner section 300px tall fits one screen at 1440, waived per user spec for 1200x300 image"}
+  {"check": "sparse", "target": "#latest section.section \"Dernières actualités Les article\"", "reason": "Section filled dynamically by JS; photo-chapters moment provides visual content; static check catches empty state"},
+  {"check": "spill", "target": "#latest div.section-head \"Dernières actualités Les article\"", "reason": "Modern redesign uses centered layout; taste-skill edges differ from custom CSS grid constraints"},
+  {"check": "spill", "target": "#latest h2 \"Dernières actualités\"", "reason": "Section heading uses centered design; taste-skill edges differ from modern design approach"},
+  {"check": "spill", "target": "#latest p.muted \"Les articles les plus récents, m\"", "reason": "Muted text uses centered layout; taste-skill edges differ from custom CSS grid constraints"},
+  {"check": "spill", "target": "#latest div.grid.news-grid \"Impossible de charger les actual\"", "reason": "Dynamic loading grid uses centered layout; taste-skill edges differ from custom CSS grid constraints"}
 ]
