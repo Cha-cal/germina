@@ -1,0 +1,20 @@
+{
+ "palettes": [
+  "white-signal-red"
+ ],
+ "types": [
+  "rethink"
+ ],
+ "dealt": [
+  "rethink",
+  "red-hat",
+  "garamond"
+ ],
+ "moments": [
+  {
+   "id": "photo-chapters",
+   "at": "2026-11-12T23:09:43.353Z",
+   "seed": "bf4dfa44"
+  }
+ ]
+}

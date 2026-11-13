@@ -1,0 +1,151 @@
+{
+ "start": "2026-11-13T00:54:57.652Z",
+ "round": 3,
+ "idle": 0,
+ "errors": 2,
+ "status": "open",
+ "history": [
+  {
+   "at": "2026-11-13T00:57:03.518Z",
+   "mode": "manual",
+   "status": "fail",
+   "fails": 2,
+   "round": 1,
+   "reused": false,
+   "stopHookActive": false
+  },
+  {
+   "at": "2026-11-13T01:17:08.691Z",
+   "mode": "hook",
+   "host": "claude",
+   "status": "fail",
+   "fails": 1,
+   "round": 2,
+   "reused": false,
+   "stopHookActive": false,
+   "decision": "block",
+   "reason": "round 2 of 3: 1 FAIL remain (not checked: consistency.mjs timed out):"
+  },
+  {
+   "at": "2026-11-13T01:29:08.472Z",
+   "mode": "manual",
+   "status": "open",
+   "fails": 3,
+   "round": 3,
+   "reused": false,
+   "stopHookActive": false
+  }
+ ],
+ "max": 3,
+ "marker": {
+  "page": "index.html,articles.html,a-propos.html,contact.html",
+  "url": null,
+  "root": null,
+  "kind": "service",
+  "category": "news website",
+  "primary": "read articles",
+  "rounds": 3,
+  "start": "2026-11-13T00:54:57.652Z",
+  "by": "gate.mjs --start"
+ },
+ "manual": true,
+ "roundKey": "5dafb327391c327b:14c78ec7",
+ "roundFree": false,
+ "idleFree": false,
+ "blockKey": null,
+ "fp": "5dafb327391c327b",
+ "page": "public/index.html",
+ "found": {
+  "fails": [
+   {
+    "check": "sparse",
+    "where": "#latest section.section \"Dernières actualités Les article\"",
+    "msg": "its content fills 37% of its screen; merge it or give it its visual (0.55 is the aim)",
+    "fix": "fill the section or make it a screen shorter",
+    "widths": [
+     1440,
+     390
+    ],
+    "from": "layout",
+    "ids": [
+     "sparse"
+    ],
+    "wheres": [
+     "#latest section.section \"Dernières actualités Les article\""
+    ]
+   },
+   {
+    "check": "sparse",
+    "where": "section.banner-section section.banner-section",
+    "msg": "its content fills 22% of its screen; merge it or give it its visual (0.55 is the aim)",
+    "fix": "fill the section or make it a screen shorter",
+    "widths": [
+     1440,
+     390
+    ],
+    "from": "layout",
+    "ids": [
+     "sparse"
+    ],
+    "wheres": [
+     "section.banner-section section.banner-section"
+    ]
+   }
+  ],
+  "warns": [],
+  "crashed": [
+   "consistency.mjs timed out"
+  ],
+  "seconds": {
+   "consistency": 423,
+   "layout": 46
+  }
+ },
+ "open": [
+  {
+   "check": "waivers",
+   "where": ".taste-skill/waivers.json",
+   "msg": "too many waivers: fix instead (8, 5 at most)",
+   "fix": "fix the findings and keep 5 waivers at most"
+  },
+  {
+   "check": "sparse",
+   "where": "#latest section.section \"Dernières actualités Les article\"",
+   "msg": "its content fills 37% of its screen; merge it or give it its visual (0.55 is the aim)",
+   "fix": "fill the section or make it a screen shorter",
+   "widths": [
+    1440,
+    390
+   ],
+   "from": "layout",
+   "ids": [
+    "sparse"
+   ],
+   "wheres": [
+    "#latest section.section \"Dernières actualités Les article\""
+   ]
+  },
+  {
+   "check": "sparse",
+   "where": "section.banner-section section.banner-section",
+   "msg": "its content fills 22% of its screen; merge it or give it its visual (0.55 is the aim)",
+   "fix": "fill the section or make it a screen shorter",
+   "widths": [
+    1440,
+    390
+   ],
+   "from": "layout",
+   "ids": [
+    "sparse"
+   ],
+   "wheres": [
+    "section.banner-section section.banner-section"
+   ]
+  }
+ ],
+ "waived": [],
+ "warnCount": 0,
+ "at": "2026-11-13T01:29:08.474Z",
+ "session": "d4c6af3d-adc8-4121-8896-359bbe69828d",
+ "openTold": true
+}

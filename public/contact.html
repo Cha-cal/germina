@@ -1,84 +1,211 @@
-<!DOCTYPE html>
-<html lang="fr">
+<!doctype html>
+<html lang="fr" data-type="service" data-radius="soft" data-motion>
 <head>
-    <!-- Méta-informations essentielles -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Actu - Contact</title>
-    <!-- Lien vers la feuille de styles -->
-    <link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Contact · Actu</title>
+<meta name="description" content="Contactez l'équipe d'Actu pour vos questions, suggestions ou signalements. Nous vous répondons sous 48h.">
+<meta name="site-kind" content="other">
+<meta name="page-type" content="service">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Contact · Actu">
+<meta property="og:description" content="Contactez l'équipe d'Actu pour vos questions, suggestions ou signalements. Nous vous répondons sous 48h.">
+<meta property="og:image" content="share.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#ffffff">
+
+<!-- Google Fonts + taste-skill system -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rethink+Sans:wght@400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/system.css">
+<link rel="stylesheet" href="assets/ui/cards.css">
+<link rel="stylesheet" href="assets/motion/motion.css">
+<link rel="stylesheet" href="assets/backgrounds/backgrounds.css">
+<link rel="stylesheet" href="assets/layout/layout.css">
+<link rel="stylesheet" href="assets/icons/icon.css">
+<style>
+:root {
+  --p-bg: #ffffff; --p-surface: #f2f2f2; --p-ink: #0a0a0a; --p-muted: #6b6b6b;
+  --p-accent: #d92b21; --p-accent-ink: #ffffff; --p-action: #d92b21; --p-action-ink: #ffffff;
+  --p-inv-bg: #000000; --p-inv-surface: #010101; --p-inv-ink: #ffffff; --p-inv-muted: #868686;
+  --p-inv-accent: #d92b21; --p-inv-accent-ink: #ffffff; --p-inv-action: #d92b21; --p-inv-action-ink: #ffffff;
+  --font-display: "Rethink Sans", system-ui, sans-serif;
+  --font-text: "Rethink Sans", system-ui, sans-serif;
+  --display-weight: 400;
+  --display-tracking: -0.025em;
+  --display-tracking-xl: -0.035em;
+}
+</style>
+
+<!-- Hero entrance + motion guard -->
+<script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
+<script src="assets/backgrounds/backgrounds.js"></script>
+
+<!-- Page CSS: custom contact styles -->
+<style>
+  /* Fix: Nav bar constrained to .wrap edges */
+  .nav__bar {
+    width: min(100% - 2 * var(--gut), var(--container));
+    margin-inline: auto;
+    padding-inline: 0;
+  }
+
+  /* Contact form shadowed box */
+  .contact-card {
+    background: var(--p-bg);
+    padding: var(--s-7);
+    border-radius: var(--r-lg);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    max-width: 600px;
+    margin-inline: auto;
+  }
+
+  /* Fix: Footer legal alignment */
+  .footer__legal {
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s-2);
+    margin-top: var(--s-5);
+    text-align: left;
+  }
+  .footer__legal p {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    text-align: left;
+  }
+
+  /* Fix: Footer grid - ensure columns align to wrap edges */
+  .closing__links .grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gutter);
+    align-items: start;
+  }
+  .closing__links .span-4 { grid-column: auto / span 4; }
+  .closing__links .span-2 { grid-column: auto / span 2; }
+  @media (max-width: 1023px) {
+    .closing__links .span-4,
+    .closing__links .span-2 { grid-column: auto / span 6; }
+  }
+  @media (max-width: 639px) {
+    .closing__links .span-4,
+    .closing__links .span-2 { grid-column: 1 / -1; }
+  }
+
+  /* Fix: Mobile overflow prevention */
+  @media (max-width: 390px) {
+    .nav__toggle { padding: 4px; }
+    .nav__bar { gap: var(--s-3); }
+    html { overflow-x: clip; }
+    body { overflow-x: clip; }
+  }
+</style>
 </head>
 <body>
 
-    <!-- En-tête du site avec le titre principal et le menu de navigation -->
-    <header>
-        <div class="header-container">
-            <!-- Logo du site -->
-            <img src="/logo.png" alt="Logo Actu" class="logo">
+<!-- NAV -->
+<header class="nav">
+  <div class="wrap nav__bar">
+    <a class="skip-link" href="#top">Aller au contenu</a>
+    <a class="nav__logo" href="#top"><img src="/logo.svg" alt="Actu" style="height: 32px; width: auto;"></a>
+    <nav class="nav__links" aria-label="Principal">
+      <div class="nav__item"><a class="nav__link" href="index.html">Accueil</a></div>
+      <div class="nav__item"><a class="nav__link" href="articles.html">Actus</a></div>
+      <div class="nav__item"><a class="nav__link" href="a-propos.html">À propos</a></div>
+      <div class="nav__item"><a class="nav__link" href="contact.html" aria-current="page">Contact</a></div>
+    </nav>
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Menu">
+      <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 5h14M2 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</header>
 
-            <!-- Bouton hamburger pour mobile -->
-            <button id="menu-btn" class="menu-hamburger">☰</button>
+<main id="top">
+  <!-- HERO: simple compact hero per drawing -->
+  <section class="hero hero--compact" data-enter aria-labelledby="hero-h" style="padding-block: var(--s-6);">
+    <div class="wrap">
+      <div class="hero-text">
+        <h1 id="hero-h" style="font-size: clamp(2rem, 5vw, 3rem);">Contact</h1>
+      </div>
+    </div>
+  </section>
 
-            <!-- Menu de navigation -->
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="index.html" class="nav-link">Accueil</a></li>
-                    <li><a href="articles.html" class="nav-link">Toutes les actus</a></li>
-                    <li><a href="a-propos.html" class="nav-link">À propos</a></li>
-                    <li><a href="contact.html" class="nav-link active">Contact</a></li>
-                </ul>
-            </nav>
+  <!-- CONTACT FORM SECTION -->
+  <section class="section" id="contact-form" style="padding-bottom: var(--s-9);">
+    <div class="wrap">
+      <div class="contact-card">
+        <div class="section-head" style="margin-bottom: var(--s-6);">
+          <h2 id="contact-h">Écrivez-nous</h2>
+          <p class="muted">Une question ou une suggestion ? Nous vous répondrons sous 48h.</p>
         </div>
-    </header>
+        <form id="form-contact" class="form" action="#" method="POST" data-endpoint="/api/contact" data-sent="Votre message a été envoyé. Nous vous répondrons sous 48h." novalidate>
+          <div class="field">
+            <label for="contact-nom">Nom</label>
+            <input id="contact-nom" name="nom" type="text" class="form-input" placeholder="Votre nom" required autocomplete="name" aria-describedby="contact-nom-err">
+            <p class="field__error" id="contact-nom-err" hidden>Écrivez votre nom.</p>
+          </div>
+          <div class="field">
+            <label for="contact-email">Email</label>
+            <input id="contact-email" name="email" type="email" class="form-input" placeholder="votre@email.com" required autocomplete="email" inputmode="email" aria-describedby="contact-email-err">
+            <p class="field__error" id="contact-email-err" hidden>Écrivez une adresse email valide (ex: nom@exemple.com).</p>
+          </div>
+          <div class="field">
+            <label for="contact-message">Message</label>
+            <textarea id="contact-message" name="message" class="form-input" placeholder="Votre message..." required aria-describedby="contact-message-err" style="min-height: 140px;"></textarea>
+            <p class="field__error" id="contact-message-err" hidden>Écrivez votre message.</p>
+          </div>
+          <div class="btn-row" style="margin-top: var(--s-6); justify-content: center;">
+            <button type="submit" class="btn btn--primary btn--xl">Envoyer le message<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></button>
+          </div>
+          <p class="form__status" role="status" data-form-status></p>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
 
-    <!-- Section principale contenant le formulaire de contact -->
-    <main>
-        <!-- Conteneur principal avec largeur maximale -->
-        <div class="content-wrapper">
-            <!-- Titre principal -->
-            <h1>Contactez-nous</h1>
-
-            <!-- Formulaire de contact -->
-            <!-- ATTENTION : Ce formulaire n'est pas encore fonctionnel.
-                 Il sera connecté à un backend lors d'une prochaine étape. -->
-            <form id="form-contact" class="contact-form" action="#" method="POST">
-                <div class="form-group">
-                    <label for="contact-nom">Nom</label>
-                    <input type="text" id="contact-nom" name="nom" class="form-input" placeholder="Votre nom" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="contact-email">Email</label>
-                    <input type="email" id="contact-email" name="email" class="form-input" placeholder="votre@email.com" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="contact-message">Message</label>
-                    <textarea id="contact-message" name="message" class="form-textarea" placeholder="Votre message..." rows="6" required></textarea>
-                </div>
-
-                <button type="submit" class="contact-submit">Envoyer</button>
-            </form>
-
-            <!-- Zone de réponse après envoi -->
-            <div id="message-reponse" style="margin-top: 15px; display: none;"></div>
+<!-- FOOTER -->
+<footer class="footer closing footer--statement" id="contact" aria-labelledby="close-h" style="--h: 1;">
+  <div class="wrap">
+    <div class="closing__cta close--type">
+      <div class="section-head">
+        <h2 id="close-h">Restez informé, chaque jour</h2>
+        <p>Rejoignez nos lecteurs pour l'essentiel de l'actualité.</p>
+      </div>
+      <a class="btn btn--primary btn--xl btn--wide" href="articles.html">Voir toutes les actus<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>
+    </div>
+    <div class="closing__links">
+      <div class="grid">
+        <div class="span-4 stack-4">
+          <a class="nav__logo" href="#top"><img src="/logo.svg" alt="Actu" style="height: 28px; width: auto;"></a>
+          <p class="footer__lede">L'actualité en continu, factuelle et accessible.</p>
         </div>
-    </main>
+        <div class="span-2 footer__col"><h3>Navigation</h3><ul><li><a href="index.html">Accueil</a></li><li><a href="articles.html">Toutes les actus</a></li><li><a href="a-propos.html">À propos</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Légal</h3><ul><li><a href="mentions-legales.html">Mentions légales</a></li><li><a href="confidentialite.html">Confidentialité</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Contact</h3><ul><li><a href="contact.html">Nous écrire</a></li></ul></div>
+      </div>
+      <div class="footer__legal">
+        <p class="footer__copyright">&copy; 2026 Actu &nbsp; <a href="mentions-legales.html">Mentions légales</a> &nbsp; <a href="confidentialite.html">Confidentialité</a></p>
+        <p class="footer__credits"><a class="credits" href="credits.html">Photographs via Unsplash</a></p>
+      </div>
+    </div>
+  </div>
+</footer>
 
-    <!-- Pied de footer -->
-    <footer class="site-footer">
-        <div class="footer-content">
-            <p>© 2026 Actu - Tous droits réservés</p>
-            <div class="social-links">
-                <a href="#" class="social-link">Facebook</a>
-                <a href="#" class="social-link">Twitter</a>
-            </div>
-        </div>
-        <a href="articles.html" class="view-all-button">Retour aux actualités</a>
-    </footer>
-
-    <!-- Script JavaScript pour le menu hamburger -->
-    <script src="script.js"></script>
-
+<!-- Scripts -->
+<script type="module" src="assets/system.js"></script>
+<script type="module" src="assets/motion/motion.js"></script>
+<script type="module" src="assets/layout/layout.js"></script>
+<script src="script.js"></script>
 </body>
 </html>

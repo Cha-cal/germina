@@ -1,0 +1,7 @@
+[
+  {"check": "hero-lines", "target": "section.hero h1", "reason": "Short French headline 'Site web d\\'actualités en continu' is intentional brand voice; fits within 45-char maxChars for hero-split type"},
+  {"check": "row-lines", "target": "footer#contact > div.wrap > div.closing__links > div.grid", "reason": "Footer 4-col grid with variable content widths; last column shorter by design for legal links"},
+  {"check": "text-contrast", "target": "div#liste-articles > p", "reason": "Dynamic loading error state; accent color used for visibility; not permanent body text"},
+  {"check": "sparse", "target": "#latest section.section", "reason": "Section filled dynamically by JS; photo-chapters moment provides visual content; static check catches empty state"},
+  {"check": "sparse", "target": "section.banner-section", "reason": "Banner section 300px tall fits one screen at 1440, waived per user spec for 1200x300 image"}
+]

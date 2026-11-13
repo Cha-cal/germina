@@ -80,7 +80,7 @@ async function chargerArticles() {
                 <div class="card-content">
                     <h3>${article.title} ${commentBadge}</h3>
                     <time datetime="${article.date}">${formaterDate(article.date)}</time>
-                    <p>${article.content}</p>
+                    <p class="resume-carte">${tronquerTexte(article.content)}</p>
                     <a href="article.html?id=${article.id}" class="read-more">Lire la suite <span>→</span></a>
                 </div>
             `;
@@ -99,6 +99,17 @@ function formaterDate(dateString) {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     const date = new Date(dateString);
     return date.toLocaleDateString('fr-FR', options);
+}
+
+/**
+ * Tronque un texte à une longueur maximale (défaut 120 caractères)
+ * Ajoute "..." seulement si le texte a été coupé
+ */
+function tronquerTexte(texte, maxLength = 120) {
+    if (!texte || texte.length <= maxLength) {
+        return texte;
+    }
+    return texte.substring(0, maxLength).trim() + '...';
 }
 
 /* ===========================================
@@ -144,7 +155,7 @@ async function chargerArticlesToutesLesActus() {
                     <div class="card-content">
                         <h3>${article.title} ${commentBadge}</h3>
                         <time datetime="${article.date}">${formaterDate(article.date)}</time>
-                        <p>${article.content}</p>
+                        <p class="resume-carte">${tronquerTexte(article.content)}</p>
                         <a href="article.html?id=${article.id}" class="read-more">Lire la suite <span>→</span></a>
                     </div>
                 </article>
@@ -339,9 +350,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('form-contact');
-    const messageReponse = document.getElementById('message-reponse');
+    const statusEl = form?.querySelector('[data-form-status]');
 
-    if (form && messageReponse) {
+    if (form && statusEl) {
         form.addEventListener('submit', async (e) => {
             e.preventDefault(); // Empêcher le rechargement de la page
 
@@ -352,9 +363,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Validation côté client : vérifier que les champs ne sont pas vides (après trim)
             if (!nom || !email || !message) {
-                messageReponse.textContent = 'Veuillez remplir tous les champs';
-                messageReponse.style.color = 'red';
-                messageReponse.style.display = 'block';
+                statusEl.textContent = 'Veuillez remplir tous les champs';
+                statusEl.style.color = 'red';
                 return;
             }
 
@@ -368,25 +378,30 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: JSON.stringify({ nom, email, message })
                 });
 
-                const result = await response.json();
+                // Retourner 400 si validation échoue côté serveur
+                if (response.status === 400) {
+                    const error = await response.json();
+                    statusEl.textContent = error.message || 'Erreur de validation.';
+                    statusEl.style.color = 'red';
+                    return;
+                }
 
-                if (result.succès) {
+                const result = response.ok ? await response.json() : {};
+
+                if (response.ok && result.succès) {
                     // Succès : vider le formulaire et afficher message vert
                     form.reset();
-                    messageReponse.textContent = 'Merci, votre message a bien été envoyé !';
-                    messageReponse.style.color = 'green';
-                    messageReponse.style.display = 'block';
+                    statusEl.textContent = 'Votre message a été envoyé. Nous vous répondrons sous 48h.';
+                    statusEl.style.color = 'green';
                 } else {
                     // Erreur API : afficher message rouge
-                    messageReponse.textContent = result.message || 'Une erreur est survenue.';
-                    messageReponse.style.color = 'red';
-                    messageReponse.style.display = 'block';
+                    statusEl.textContent = result.message || 'Une erreur est survenue.';
+                    statusEl.style.color = 'red';
                 }
             } catch (erreur) {
                 console.error('Erreur:', erreur);
-                messageReponse.textContent = 'Une erreur est survenue.';
-                messageReponse.style.color = 'red';
-                messageReponse.style.display = 'block';
+                statusEl.textContent = 'Une erreur est survenue.';
+                statusEl.style.color = 'red';
             }
         });
     }

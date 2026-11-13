@@ -369,6 +369,16 @@ header h2 {
     flex-grow: 1;
 }
 
+/* Résumé tronqué dans les cartes - coupe à 3 lignes maximum */
+.news-card .resume-carte {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-grow: 1;
+}
+
 .news-card .read-more {
     display: inline-flex;
     align-items: center;

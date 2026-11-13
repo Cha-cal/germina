@@ -1,102 +1,188 @@
-<!DOCTYPE html>
-<html lang="fr">
+<!doctype html>
+<html lang="fr" data-type="service" data-radius="soft" data-motion>
 <head>
-    <!-- Méta-informations essentielles -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Actu - À propos</title>
-    <!-- Lien vers la feuille de styles -->
-    <link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>À propos · Actu</title>
+<meta name="description" content="Actu est un site d'information en continu, fondé en 2026 par des journalistes passionnés. Notre mission : une information factuelle, indépendante et accessible à tous.">
+<meta name="site-kind" content="other">
+<meta name="page-type" content="service">
+<meta property="og:type" content="website">
+<meta property="og:title" content="À propos · Actu">
+<meta property="og:description" content="Actu est un site d'information en continu, fondé en 2026 par des journalistes passionnés. Notre mission : une information factuelle, indépendante et accessible à tous.">
+<meta property="og:image" content="share.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#ffffff">
+
+<!-- Google Fonts + taste-skill system -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rethink+Sans:wght@400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/system.css">
+<link rel="stylesheet" href="assets/ui/cards.css">
+<link rel="stylesheet" href="assets/motion/motion.css">
+<link rel="stylesheet" href="assets/backgrounds/backgrounds.css">
+<link rel="stylesheet" href="assets/layout/layout.css">
+<link rel="stylesheet" href="assets/icons/icon.css">
+<style>
+:root {
+  --p-bg: #ffffff; --p-surface: #f2f2f2; --p-ink: #0a0a0a; --p-muted: #6b6b6b;
+  --p-accent: #d92b21; --p-accent-ink: #ffffff; --p-action: #d92b21; --p-action-ink: #ffffff;
+  --p-inv-bg: #000000; --p-inv-surface: #010101; --p-inv-ink: #ffffff; --p-inv-muted: #868686;
+  --p-inv-accent: #d92b21; --p-inv-accent-ink: #ffffff; --p-inv-action: #d92b21; --p-inv-action-ink: #ffffff;
+  --font-display: "Rethink Sans", system-ui, sans-serif;
+  --font-text: "Rethink Sans", system-ui, sans-serif;
+  --display-weight: 400;
+  --display-tracking: -0.025em;
+  --display-tracking-xl: -0.035em;
+}
+</style>
+
+<!-- Hero entrance + motion guard -->
+<script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
+<script src="assets/backgrounds/backgrounds.js"></script>
+
+<!-- Page CSS: fixed height for article cards -->
+<style>
+  /* Fix: Nav bar constrained to .wrap edges */
+  .nav__bar {
+    width: min(100% - 2 * var(--gut), var(--container));
+    margin-inline: auto;
+    padding-inline: 0;
+  }
+
+  /* Fix: Footer legal alignment */
+  .footer__legal {
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s-2);
+    margin-top: var(--s-5);
+    text-align: left;
+  }
+  .footer__legal p {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    text-align: left;
+  }
+
+  /* Fix: Footer grid - ensure columns align to wrap edges */
+  .closing__links .grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gutter);
+    align-items: start;
+  }
+  .closing__links .span-4 { grid-column: auto / span 4; }
+  .closing__links .span-2 { grid-column: auto / span 2; }
+  @media (max-width: 1023px) {
+    .closing__links .span-4,
+    .closing__links .span-2 { grid-column: auto / span 6; }
+  }
+  @media (max-width: 639px) {
+    .closing__links .span-4,
+    .closing__links .span-2 { grid-column: 1 / -1; }
+  }
+
+  /* Fix: Mobile overflow prevention */
+  @media (max-width: 390px) {
+    .nav__toggle { padding: 4px; }
+    .nav__bar { gap: var(--s-3); }
+    html { overflow-x: clip; }
+    body { overflow-x: clip; }
+  }
+</style>
 </head>
 <body>
 
-    <!-- En-tête du site avec le titre principal et le menu de navigation -->
-    <header>
-        <div class="header-container">
-            <!-- Logo du site -->
-            <img src="/logo.png" alt="Logo Actu" class="logo">
+<!-- NAV -->
+<header class="nav">
+  <div class="wrap nav__bar">
+    <a class="skip-link" href="#top">Aller au contenu</a>
+    <a class="nav__logo" href="#top"><img src="/logo.svg" alt="Actu" style="height: 32px; width: auto;"></a>
+    <nav class="nav__links" aria-label="Principal">
+      <div class="nav__item"><a class="nav__link" href="index.html">Accueil</a></div>
+      <div class="nav__item"><a class="nav__link" href="articles.html">Actus</a></div>
+      <div class="nav__item"><a class="nav__link" href="a-propos.html" aria-current="page">À propos</a></div>
+      <div class="nav__item"><a class="nav__link" href="contact.html">Contact</a></div>
+    </nav>
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Menu">
+      <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 5h14M2 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</header>
 
-            <!-- Bouton hamburger pour mobile -->
-            <button id="menu-btn" class="menu-hamburger">☰</button>
+<main id="top">
+  <!-- HERO: simple compact hero per drawing -->
+  <section class="hero hero--compact" data-enter aria-labelledby="hero-h" style="padding-block: var(--s-6);">
+    <div class="wrap">
+      <div class="hero-text">
+        <h1 id="hero-h" style="font-size: clamp(2rem, 5vw, 3rem);">À propos</h1>
+      </div>
+    </div>
+  </section>
 
-            <!-- Menu de navigation -->
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="index.html" class="nav-link">Accueil</a></li>
-                    <li><a href="articles.html" class="nav-link">Toutes les actus</a></li>
-                    <li><a href="a-propos.html" class="nav-link active">À propos</a></li>
-                    <li><a href="contact.html" class="nav-link">Contact</a></li>
-                </ul>
-            </nav>
+  <!-- SECTION: Image + Texte -->
+  <section class="section" id="contenu-propos" style="padding-bottom: var(--s-9);">
+    <div class="wrap" style="max-width: 800px; margin-inline: auto;">
+      <div class="frame frame--photo" style="margin-bottom: var(--s-7);">
+        <img class="frame__img" src="https://picsum.photos/800/400" alt="À propos d'Actu" style="width: 100%; height: auto; border-radius: var(--r-md);">
+      </div>
+      <div class="propos-text" style="font-size: 1.1rem; line-height: 1.7; color: var(--p-ink);">
+        <p>
+          Fondé en 2026, Actu est né d'une conviction simple : l'accès à une information fiable, factuelle et accessible est un droit fondamental. Ce qui a commencé comme un petit projet entre collègues est devenu une référence pour des milliers de lecteurs quotidiens.
+        </p>
+        <p style="margin-top: var(--s-5);">
+          Notre rédaction compte aujourd'hui une douzaine de journalistes, reporters et éditeurs, tous animés par la même exigence de rigueur et d'indépendance. Nous couvrons l'actualité nationale et internationale, la politique, l'économie, la société, la culture et le sport.
+        </p>
+        <p style="margin-top: var(--s-5);">
+          Chaque information est vérifiée avant publication. Nos journalistes croisent les sources et privilégient la précision à la vitesse. Rejoignez notre communauté pour découvrir l'essentiel du monde d'aujourd'hui, chaque jour, en continu.
+        </p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- FOOTER -->
+<footer class="footer closing footer--statement" id="contact" aria-labelledby="close-h" style="--h: 1;">
+  <div class="wrap">
+    <div class="closing__cta close--type">
+      <div class="section-head">
+        <h2 id="close-h">Restez informé, chaque jour</h2>
+        <p>Rejoignez nos lecteurs pour l'essentiel de l'actualité.</p>
+      </div>
+      <a class="btn btn--primary btn--xl btn--wide" href="articles.html">Voir toutes les actus<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>
+    </div>
+    <div class="closing__links">
+      <div class="grid">
+        <div class="span-4 stack-4">
+          <a class="nav__logo" href="#top"><img src="/logo.svg" alt="Actu" style="height: 28px; width: auto;"></a>
+          <p class="footer__lede">L'actualité en continu, factuelle et accessible.</p>
         </div>
-    </header>
+        <div class="span-2 footer__col"><h3>Navigation</h3><ul><li><a href="index.html">Accueil</a></li><li><a href="articles.html">Toutes les actus</a></li><li><a href="a-propos.html">À propos</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Légal</h3><ul><li><a href="mentions-legales.html">Mentions légales</a></li><li><a href="confidentialite.html">Confidentialité</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Contact</h3><ul><li><a href="contact.html">Nous écrire</a></li></ul></div>
+      </div>
+      <div class="footer__legal">
+        <p class="footer__copyright">&copy; 2026 Actu &nbsp; <a href="mentions-legales.html">Mentions légales</a> &nbsp; <a href="confidentialite.html">Confidentialité</a></p>
+        <p class="footer__credits"><a class="credits" href="credits.html">Photographs via Unsplash</a></p>
+      </div>
+    </div>
+  </div>
+</footer>
 
-    <!-- HERO SECTION (Bannière) -->
-    <section class="hero-section">
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <h1>À propos de notre site</h1>
-            <p>L'information de qualité, accessible à tous, partout et tout le temps</p>
-        </div>
-    </section>
-
-    <!-- Section principale contenant le contenu -->
-    <main>
-        <!-- Conteneur principal avec largeur maximale -->
-        <div class="content-wrapper">
-            <!-- Section présentation en 2 colonnes -->
-            <section class="about-section">
-                <div class="about-grid">
-                    <!-- Colonne image -->
-                    <div class="about-image">
-                        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=800" alt="Notre équipe de journalistes au travail" loading="lazy">
-                    </div>
-
-                    <!-- Colonne texte -->
-                    <div class="about-text">
-                        <h2>Notre mission</h2>
-                        <p>
-                            Actu est un site d'information dédié à vous fournir l'actualité en continu du monde entier.
-                            Notre mission est d'informer les lecteurs avec des contenus factuels, bien rédigés et accessibles.
-                            Nous croyons que l'accès à une information fiable est un droit fondamental.
-                        </p>
-
-                        <h2>Notre histoire</h2>
-                        <p>
-                            Fondé en 2026, notre équipe de journalistes passionnés vous offre chaque jour des chroniques,
-                            des enquêtes et des analyses pour rester bien informé de l'ensemble des événements marquants.
-                            Ce qui a commencé comme un petit projet est devenu une référence pour des milliers de lecteurs.
-                        </p>
-
-                        <h2>Nos valeurs</h2>
-                        <p>
-                            <strong>Rigueur :</strong> Chaque information est vérifiée avant publication.<br>
-                            <strong>Indépendance :</strong> Aucun parti pris, aucune influence extérieure.<br>
-                            <strong>Clarté :</strong> Des articles lisibles, sans jargon inutile.
-                        </p>
-                        <p>
-                            Rejoignez notre communauté pour découvrir l'essentiel du monde d'aujourd'hui.
-                        </p>
-                    </div>
-                </div>
-            </section>
-        </div>
-    </main>
-
-    <!-- Pied de page -->
-    <footer class="site-footer">
-        <div class="footer-content">
-            <p>© 2026 Actu - Tous droits réservés</p>
-            <div class="social-links">
-                <a href="#" class="social-link">Facebook</a>
-                <a href="#" class="social-link">Twitter</a>
-            </div>
-        </div>
-        <a href="index.html" class="view-all-button">Retour à l'accueil</a>
-    </footer>
-
-    <!-- Script JavaScript pour le menu hamburger -->
-    <script src="script.js"></script>
-
+<!-- Scripts -->
+<script type="module" src="assets/system.js"></script>
+<script type="module" src="assets/motion/motion.js"></script>
+<script type="module" src="assets/layout/layout.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
