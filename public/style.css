@@ -75,6 +75,15 @@ body {
     margin: 0;
 }
 
+.hero-main p {
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    color: #ffffff;
+    text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.5);
+    margin: 0.75rem 0 0 0;
+    font-weight: 400;
+    opacity: 0.95;
+}
+
 /* ===========================================
    4. GRILLE D'ARTICLES - 3 COLONNES
    =========================================== */
